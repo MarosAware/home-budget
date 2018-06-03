@@ -38,8 +38,20 @@ class BudgetPositionController extends Controller
 
     public function showMonthsAction($year)
     {
-        return new Response('hello');
+
+        return $this->render('@App/BudgetPosition/showMonths.html.twig', ['year' => $year]);
     }
 
+    /**
+     * @Route("/{year}/{monthId}")
+     */
+    public function oneMonthAction($year, $monthId, Request $request)
+    {
+        $month = $request->query->get('month');
+
+
+        return $this->render('@App/BudgetPosition/showOneMonth.html.twig',
+            ['year' => $year, 'monthId' => $monthId, 'month' => $month]);
+    }
 
 }

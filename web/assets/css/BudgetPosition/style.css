@@ -1,0 +1,17 @@
+
+.month-item a {
+    display:block;
+    padding: 30px;
+    margin:0 auto;
+    text-align: center;
+    background-color: white;
+    text-decoration: none;
+    color:#007c80;
+    font-size: 3rem;
+}
+
+.month-item a:hover {
+    background-color:#007c80;
+    color:white;
+    text-decoration: none;
+}
