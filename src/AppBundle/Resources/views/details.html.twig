@@ -1,0 +1,35 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h3>Wydatki kategorii: </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Tytuł</th>
+                    <th>Kwota</th>
+                    <th>Opis</th>
+                    <th>Opcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for budgetPosition in budgetPositions %}
+                <tr>
+                    {#<td>{{  budgetPosition.date }}</td>#}
+                    <td></td>
+                    <td>{{ budgetPosition.title }}</td>
+                    <td>{{ budgetPosition.price  /100 }}</td>
+                    <td>{{ budgetPosition.description }} </td>
+                    <td>
+                        <a href=" " class="btn btn-primary">Edytuj</a>
+                        <a href=" " class="btn btn-danger">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

@@ -10,4 +10,15 @@ namespace AppBundle\Repository;
  */
 class BudgetPositionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByMonthAndCategory($month, $year, $category)
+    {
+        $em = $this->getEntityManager();
+
+        $budgetPossitions = $em->createQuery(
+            'SELECT b FROM AppBundle:BudgetPosition b WHERE b.category=:category AND b.date LIKE :prefix')
+            ->setParameter('category', $category)
+            ->setParameter('prefix', $year.'-'.$month.'%')->getResult();
+
+        return $budgetPossitions;
+    }
 }

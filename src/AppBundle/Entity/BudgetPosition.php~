@@ -50,7 +50,7 @@ class BudgetPosition
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="budgetPositions")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="budgetPosition")
      */
     private $category;
 
@@ -160,28 +160,5 @@ class BudgetPosition
     {
         return $this->date;
     }
-
-    /**
-     * Set category
-     *
-     * @param \AppBundle\Entity\Category $category
-     *
-     * @return BudgetPosition
-     */
-    public function setCategory(\AppBundle\Entity\Category $category = null)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \AppBundle\Entity\Category
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
 }
+
