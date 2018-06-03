@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\BudgetPosition;
+use AppBundle\Form\BudgetPositionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -54,4 +56,26 @@ class BudgetPositionController extends Controller
             ['year' => $year, 'monthId' => $monthId, 'month' => $month]);
     }
 
+
+    /**
+     * @Route("/year/{year}/{monthId}/addBudgetPosition")
+     */
+    public function addPositionAction($year, $monthId, Request $request)
+    {
+        $position = new BudgetPosition();
+
+        $form = $this->createForm(BudgetPositionType::class, $position, ['year' => $year, 'monthId' => $monthId]);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($position);
+            $em->flush();
+
+            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'monthId' => $monthId]);
+        }
+
+        return $this->render('@App/BudgetPosition/addBudgetPosition.html.twig', ['form' => $form->createView()]);
+    }
 }

@@ -1,0 +1,19 @@
+{% extends '@App/base.html.twig' %}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Dodaj nową pozycję:</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-primary" type="submit" value="Dodaj pozycję">
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+
+

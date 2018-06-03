@@ -138,4 +138,28 @@ class Category
     {
         return $this->budgetPositions;
     }
+
+    /**
+     * Add budgetPosition
+     *
+     * @param \AppBundle\Entity\BudgetPosition $budgetPosition
+     *
+     * @return Category
+     */
+    public function addBudgetPosition(\AppBundle\Entity\BudgetPosition $budgetPosition)
+    {
+        $this->budgetPositions[] = $budgetPosition;
+
+        return $this;
+    }
+
+    /**
+     * Remove budgetPosition
+     *
+     * @param \AppBundle\Entity\BudgetPosition $budgetPosition
+     */
+    public function removeBudgetPosition(\AppBundle\Entity\BudgetPosition $budgetPosition)
+    {
+        $this->budgetPositions->removeElement($budgetPosition);
+    }
 }
