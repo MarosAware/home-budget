@@ -32,14 +32,14 @@ class BudgetPositionController extends Controller
         return $this->redirectToRoute('app_budgetposition_showmonths', ['year' => $year]);
     }
 
-    /**
-     * @Route("/{year}")
-     */
-
-    public function showMonthsAction($year)
-    {
-        return new Response('hello');
-    }
+//    /**
+//     * @Route("/{year}")
+//     */
+//
+//    public function showMonthsAction($year)
+//    {
+//        return new Response('hello');
+//    }
 
 
 }
