@@ -49,10 +49,43 @@ class BudgetPositionController extends Controller
     public function oneMonthAction($year, $monthId, $month)
     {
 
-        return $this->render('@App/BudgetPosition/showOneMonth.html.twig',
-            ['year' => $year, 'monthId' => $monthId, 'month' => $month]);
-    }
+        $month = $request->query->get('month');
 
+        $incomeCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('przychód');
+        $costCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('wydatek');
+
+        foreach ($incomeCategories as $category) {
+            $budgetPositions = $this
+                ->getDoctrine()
+                ->getRepository("AppBundle:BudgetPosition")
+                ->findByMonthAndCategory($monthId, $year, $category->getId());
+
+            $allIncomeCategoriesSum [$category->getName()] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+        }
+
+        foreach ($costCategories as $category) {
+            $budgetPositions = $this
+                ->getDoctrine()
+                ->getRepository("AppBundle:BudgetPosition")
+                ->findByMonthAndCategory($monthId, $year, $category->getId());
+
+            $allCostCategoriesSum [$category->getName()] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+        }
+
+//        $totalIncome = number_format(array_sum($incomeCategories),2);
+        $totalIncome = array_sum($allIncomeCategoriesSum);
+        $totalCost = array_sum($allCostCategoriesSum);
+
+        return $this->render('@App/BudgetPosition/showOneMonth.html.twig', [
+            'year' => $year,
+            'monthId' => $monthId,
+            'month' => $month,
+            'incomeCategories' => $allIncomeCategoriesSum,
+            'costCategories' => $allCostCategoriesSum,
+            'totalIncome' => $totalIncome,
+            'totalCost' =>$totalCost
+        ]);
+    }
 
     /**
      * @Route("/year/{year}/{monthId}/{month}/addBudgetPosition")

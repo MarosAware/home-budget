@@ -15,8 +15,53 @@
         <div class="row">
             <div class="col-sm-12 text-center">
                 <a class="btn btn-primary" href="{{ url('app_budgetposition_addposition', {'year': year, 'monthId': monthId, 'month': month}) }}">Dodaj Pozycję</a>
-                <a class="btn btn-info" href="">Dodaj Kategorię</a>
+                <a class="btn btn-info" href="{{ url('app_category_addcategory', {'year': year, 'monthId': monthId}) }}">Dodaj Kategorię</a>
             </div>
+        </div>
+        <div class="row">
+            <h3>Przychody</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Kategoria</td>
+                        <td>Kwota</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category, sum  in incomeCategories %}
+                        <tr>
+                            <td>{{ category }}</td>
+                            <td>{{ sum }} zł</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><strong>Suma:</strong></td>
+                        <td><strong>{{ totalIncome }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Wydatki</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Kategoria</td>
+                    <td>Kwota</td>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for category, sum in costCategories %}
+                        <tr>
+                            <td>{{ category }}</td>
+                            <td>{{ sum }} zł</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><strong>Suma:</strong></td>
+                        <td><strong>{{ totalCost }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

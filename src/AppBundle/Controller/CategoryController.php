@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\BudgetPosition;
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,11 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
 class CategoryController extends Controller
 {
     /**
-     * @Route("/{month}/{year}/details/{categoryId}")
+     * @Route("/{year}/{month}/details/{categoryId}")
      */
-    public function showDetailsAction($month, $categoryId, $year)
+    public function showDetailsAction( $year, $month, $categoryId)
     {
         $category = $this->getDoctrine()->getRepository("AppBundle:Category")->find($categoryId);
+        if (!$category){
+            throw $this->createNotFoundException('Category not found');
+        }
         $categoryName = $category->getName();
 
         $budgetPositions = $this
@@ -23,26 +27,20 @@ class CategoryController extends Controller
             ->getRepository('AppBundle:BudgetPosition')
             ->findByMonthAndCategory($month, $year, $categoryId);
 
-        $sum = 0;
+        $sum = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
 
-        foreach ($budgetPositions as $budgetPosition){
-
-            $category = $budgetPosition->getCategory();
-            if ($category->getType() === "przychód"){
-                $sum += $budgetPosition->getPrice();
-
-            }elseif ($category->getType() === "wydatek"){
-                $sum -= $budgetPosition->getPrice();
-            }
-        }
-
-        return $this->render('@App/details.html.twig', ['budgetPositions' => $budgetPositions, 'categoryName' => $categoryName, 'sum' => $sum]);
+        return $this->render('@App/category/details.html.twig', [
+            'budgetPositions' => $budgetPositions,
+            'categoryName' => $categoryName,
+            'sum' => $sum,
+            'year' => $year,
+            'month' => $month,]);
     }
 
     /**
-     * @Route("/addCategory")
+     * @Route("/addCategory/{year}/{monthId}")
      */
-    public function addCategoryAction(Request $request)
+    public function addCategoryAction(Request $request, $year, $monthId)
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -54,12 +52,10 @@ class CategoryController extends Controller
             $em->persist($category);
             $em->flush();
 
-            return $this->render('@App/category/add.html.twig', ['form' => $form->createView()]);
-
-//            return $this->redirectToRoute('app_budgetposition_showmonth');
+            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'monthId' => $monthId]);
         }
 
-        return $this->render('@App/category/add.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/category/addCategory.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -87,7 +83,7 @@ class CategoryController extends Controller
 //            return $this->redirectToRoute('');
         }
 
-        return $this->render('@App/category/modify.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -108,6 +104,6 @@ class CategoryController extends Controller
         $em->remove($category);
         $em->flush();
 
-        return $this->redirectToRoute('');
+//        return $this->redirectToRoute('');
     }
 }
