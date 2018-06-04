@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class BudgetPositionController extends Controller
 {
@@ -45,12 +44,10 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/year/{year}/{monthId}")
+     * @Route("/year/{year}/{monthId}/{month}")
      */
-    public function oneMonthAction($year, $monthId, Request $request)
+    public function oneMonthAction($year, $monthId, $month)
     {
-        $month = $request->query->get('month');
-
 
         return $this->render('@App/BudgetPosition/showOneMonth.html.twig',
             ['year' => $year, 'monthId' => $monthId, 'month' => $month]);
@@ -58,9 +55,9 @@ class BudgetPositionController extends Controller
 
 
     /**
-     * @Route("/year/{year}/{monthId}/addBudgetPosition")
+     * @Route("/year/{year}/{monthId}/{month}/addBudgetPosition")
      */
-    public function addPositionAction($year, $monthId, Request $request)
+    public function addPositionAction($year, $monthId, $month, Request $request)
     {
         $position = new BudgetPosition();
 
@@ -73,7 +70,7 @@ class BudgetPositionController extends Controller
             $em->persist($position);
             $em->flush();
 
-            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'monthId' => $monthId]);
+            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'monthId' => $monthId, 'month' => $month]);
         }
 
         return $this->render('@App/BudgetPosition/addBudgetPosition.html.twig', ['form' => $form->createView()]);

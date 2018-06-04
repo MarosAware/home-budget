@@ -122,7 +122,8 @@ class BudgetPosition
      */
     public function setPrice($price)
     {
-        $this->price = $price;
+
+        $this->price = $price * 100;
 
         return $this;
     }
@@ -134,7 +135,7 @@ class BudgetPosition
      */
     public function getPrice()
     {
-        return $this->price;
+        return $this->price / 100;
     }
 
     /**
