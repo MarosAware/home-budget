@@ -18,11 +18,10 @@
             <tbody>
             {% for budgetPosition in budgetPositions %}
                 <tr>
-                    {#<td>{{  budgetPosition.date }}</td>#}
-                    <td></td>
+                    <td>{{  budgetPosition.date.date |slice (0,10)}}</td>
                     <td>{{ budgetPosition.title }}</td>
                     <td>{{ budgetPosition.description }} </td>
-                    <td>{{ budgetPosition.price  /100 }} zł </td>
+                    <td>{{ budgetPosition.price }} zł </td>
                     <td>
                         <a href="{{ path('app_budgetposition_edit', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-primary">Edytuj</a>
                         <a href="{{ path('app_budgetposition_delete', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-danger">Usuń</a>
