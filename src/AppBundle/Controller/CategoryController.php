@@ -58,7 +58,7 @@ class CategoryController extends Controller
             return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
         }
 
-        return $this->render('@App/category/addCategory.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
+        return $this->render('@App/category/add.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
     }
 
     /**
@@ -86,7 +86,7 @@ class CategoryController extends Controller
             return $this->redirectToRoute('app_category_showcategories', ['year' => $year, 'month' =>$month]);
         }
 
-        return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month, 'categoryId' => $id]);
+        return $this->render('@App/category/modify.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month, 'categoryId' => $id]);
     }
 
     /**
@@ -118,9 +118,9 @@ class CategoryController extends Controller
         $categories = $this
             ->getDoctrine()
             ->getRepository('AppBundle:Category')
-            ->findAll();
+            ->findBy(array(), array('name'=>'ASC'));
 
-        return $this->render('@App/category/showCategories.html.twig', [
+        return $this->render('@App/category/showAll.html.twig', [
             'categories' => $categories,
             'year' => $year,
             'month' => $month]);

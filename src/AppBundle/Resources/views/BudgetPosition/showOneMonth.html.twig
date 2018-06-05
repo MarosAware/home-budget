@@ -33,8 +33,8 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <h1 class="text-center">Zestawienie Dla Miesiąca {{ monthTxt | capitalize }}</h1>
+            <div class="col-sm-11">
+                <h1 class="text-center">Zestawienie miesiąca: {{ monthTxt | capitalize }}</h1>
             </div>
         </div>
         <div class="col-sm-11">
@@ -50,7 +50,9 @@
                     {% if incomeCategories %}
                         {% for i  in 0..incomeCategories| length - 1 %}
                             <tr>
-                                <td><a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': incomeCategories[i].id }) }}">{{ incomeCategories[i].name }}</a></td>
+                                <td>
+                                    <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': incomeCategories[i].id }) }}">{{ incomeCategories[i].name }}</a>
+                                </td>
                                 <td class="text-right">{{ incomeCategoriesSums[i] |number_format(2) }} zł</td>
                             </tr>
                         {% endfor %}
