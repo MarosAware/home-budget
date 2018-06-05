@@ -56,13 +56,13 @@ class CategoryController extends Controller
             return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
         }
 
-        return $this->render('@App/category/addCategory.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/category/addCategory.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
     }
 
     /**
      * @Route("/{year}/{month}/modifyCategory/{id}")
      */
-    public function modifyCategoryAction(Request $request, $id)
+    public function modifyCategoryAction(Request $request, $id, $year, $month)
     {
         $category = $this
             ->getDoctrine()
@@ -84,7 +84,7 @@ class CategoryController extends Controller
             return $this->redirectToRoute('');
         }
 
-        return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
     }
 
     /**
