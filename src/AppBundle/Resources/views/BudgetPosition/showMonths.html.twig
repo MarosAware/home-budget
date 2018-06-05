@@ -29,7 +29,7 @@
                     {% endif %}
                     <div class="col-sm-4">
                         <div class="month-item">
-                            <a href="{{ url('app_budgetposition_addposition', {'year': year, 'month': month }) }}">{{ months[k-1]}}</a>
+                            <a href="{{ url('app_budgetposition_onemonth', {'year': year, 'month': month }) }}">{{ months[k-1]}}</a>
                         </div>
                     </div>
                     {% set k = k + 1 %}
