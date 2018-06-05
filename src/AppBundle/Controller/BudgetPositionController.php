@@ -34,7 +34,7 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/{year}")
+     * @Route("/{year}/")
      */
 
     public function showMonthsAction($year)
@@ -48,10 +48,11 @@ class BudgetPositionController extends Controller
      */
     public function oneMonthAction($year, $month)
     {
-
-
         $incomeCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('przychód');
         $costCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('wydatek');
+
+        $incomeCategoriesSums = [];
+        $costCategoriesSums = [];
 
         foreach ($incomeCategories as $category) {
             $budgetPositions = $this
@@ -59,7 +60,7 @@ class BudgetPositionController extends Controller
                 ->getRepository("AppBundle:BudgetPosition")
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
-            $allIncomeCategoriesSum [$category->getName()] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+            $incomeCategoriesSums [] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
         }
 
         foreach ($costCategories as $category) {
@@ -68,21 +69,21 @@ class BudgetPositionController extends Controller
                 ->getRepository("AppBundle:BudgetPosition")
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
-            $allCostCategoriesSum [$category->getName()] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+            $costCategoriesSums [] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
         }
-
-//        $totalIncome = number_format(array_sum($incomeCategories),2);
-        $totalIncome = array_sum($allIncomeCategoriesSum);
-        $totalCost = array_sum($allCostCategoriesSum);
+        
+        $totalIncome = array_sum($incomeCategoriesSums);
+        $totalCost = array_sum($costCategoriesSums);
 
         return $this->render('@App/BudgetPosition/showOneMonth.html.twig', [
             'year' => $year,
             'month' => $month,
-            'incomeCategories' => $allIncomeCategoriesSum,
-            'costCategories' => $allCostCategoriesSum,
+            'incomeCategories' => $incomeCategories,
+            'incomeCategoriesSums' => $incomeCategoriesSums,
+            'costCategories' => $costCategories,
+            'costCategoriesSums' => $costCategoriesSums,
             'totalIncome' => $totalIncome,
-            'totalCost' =>$totalCost
-        ]);
+            'totalCost' =>$totalCost]);
     }
 
     /**

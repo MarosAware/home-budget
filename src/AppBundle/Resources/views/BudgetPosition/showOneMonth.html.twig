@@ -28,19 +28,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for category, sum  in incomeCategories %}
-                        <tr>
-                            <td><a href="{{ path('app_category_showdetails', {'month': month, 'year': year, 'categoryId': 'x'}) }}">{{ category }}</a></td>
-                            <td>{{ sum }} zł</td>
-                        </tr>
-                    {% endfor %}
+                    {% if incomeCategories %}
+                        {% for i  in 0..incomeCategories| length - 1 %}
+                            <tr>
+                                <td><a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': incomeCategories[i].id }) }}">{{ incomeCategories[i].name }}</a></td>
+                                <td>{{ incomeCategoriesSums[i] }} zł</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                     <tr>
                         <td><strong>Suma:</strong></td>
-                        <td><strong>{{ totalIncome }}</strong></td>
+                        <td><strong>{{ totalIncome }} zł </strong></td>
                     </tr>
                 </tbody>
             </table>
-
             <h3>Wydatki</h3>
             <table class="table">
                 <thead>
@@ -50,18 +51,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for category, sum in costCategories %}
-                        <tr>
-                            <td>{{ category }}</td>
-                            <td>{{ sum }} zł</td>
-                        </tr>
-                    {% endfor %}
+                    {% if costCategories %}
+                        {% for i in 0..costCategories|length -1 %}
+                            <tr>
+                                <td><a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': costCategories[i].id }) }}">{{ costCategories[i].name }}</td>
+                                <td>{{ costCategoriesSums[i] }} zł</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                     <tr>
                         <td><strong>Suma:</strong></td>
-                        <td><strong>{{ totalCost }}</strong></td>
+                        <td><strong>{{ totalCost }} zł </strong></td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <p> Całkowity przychód: {{ totalIncome }} zł </p>
+                <p> Całkowite wydatki : {{ totalCost }} zł </p>
+                <p> Saldo: {{ totalIncome + totalCost }} zł </p>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -8,13 +8,14 @@ use AppBundle\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
     /**
-     * @Route("/{year}/{month}/details/{categoryId}")
+     * @Route("/{year}/{month}/categoryDetails/{categoryId}")
      */
-    public function showDetailsAction( $year, $month, $categoryId)
+    public function categoryDetailsAction( $year, $month, $categoryId)
     {
         $category = $this->getDoctrine()->getRepository("AppBundle:Category")->find($categoryId);
         if (!$category){
@@ -59,7 +60,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/modifyCategory/{id}")
+     * @Route("/{year}/{month}/modifyCategory/{id}")
      */
     public function modifyCategoryAction(Request $request, $id)
     {
@@ -80,14 +81,14 @@ class CategoryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-//            return $this->redirectToRoute('');
+            return $this->redirectToRoute('');
         }
 
         return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/deleteCategory/{id}")
+     * @Route("/{year}/{month}/deleteCategory/{id}")
      */
     public function deleteCategoryAction(Request $request, $id)
     {
@@ -104,6 +105,6 @@ class CategoryController extends Controller
         $em->remove($category);
         $em->flush();
 
-//        return $this->redirectToRoute('');
+        return $this->redirectToRoute('');
     }
 }
