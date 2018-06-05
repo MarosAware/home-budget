@@ -34,7 +34,7 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/year/{year}")
+     * @Route("/{year}")
      */
 
     public function showMonthsAction($year)
@@ -44,12 +44,11 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/year/{year}/{monthId}/{month}")
+     * @Route("/{year}/{month}")
      */
-    public function oneMonthAction($year, $monthId, $month)
+    public function oneMonthAction($year, $month)
     {
 
-        $month = $request->query->get('month');
 
         $incomeCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('przychód');
         $costCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('wydatek');
@@ -58,7 +57,7 @@ class BudgetPositionController extends Controller
             $budgetPositions = $this
                 ->getDoctrine()
                 ->getRepository("AppBundle:BudgetPosition")
-                ->findByMonthAndCategory($monthId, $year, $category->getId());
+                ->findByMonthAndCategory($month, $year, $category->getId());
 
             $allIncomeCategoriesSum [$category->getName()] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
         }
@@ -67,7 +66,7 @@ class BudgetPositionController extends Controller
             $budgetPositions = $this
                 ->getDoctrine()
                 ->getRepository("AppBundle:BudgetPosition")
-                ->findByMonthAndCategory($monthId, $year, $category->getId());
+                ->findByMonthAndCategory($month, $year, $category->getId());
 
             $allCostCategoriesSum [$category->getName()] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
         }
@@ -78,7 +77,6 @@ class BudgetPositionController extends Controller
 
         return $this->render('@App/BudgetPosition/showOneMonth.html.twig', [
             'year' => $year,
-            'monthId' => $monthId,
             'month' => $month,
             'incomeCategories' => $allIncomeCategoriesSum,
             'costCategories' => $allCostCategoriesSum,
@@ -88,13 +86,13 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/year/{year}/{monthId}/{month}/addBudgetPosition")
+     * @Route("/{year}/{month}/addBudgetPosition")
      */
-    public function addPositionAction($year, $monthId, $month, Request $request)
+    public function addPositionAction($year, $month, Request $request)
     {
         $position = new BudgetPosition();
 
-        $form = $this->createForm(BudgetPositionType::class, $position, ['year' => $year, 'monthId' => $monthId]);
+        $form = $this->createForm(BudgetPositionType::class, $position, ['year' => $year, 'month' => $month]);
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
@@ -103,9 +101,9 @@ class BudgetPositionController extends Controller
             $em->persist($position);
             $em->flush();
 
-            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'monthId' => $monthId, 'month' => $month]);
+            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
         }
 
-        return $this->render('@App/BudgetPosition/addBudgetPosition.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/BudgetPosition/add.html.twig', ['form' => $form->createView()]);
     }
 }

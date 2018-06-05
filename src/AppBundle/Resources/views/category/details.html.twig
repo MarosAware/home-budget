@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container">
-        <a href="{{ path('app_budgetposition_onemonth', {'year': year , 'monthId': month }) }}">Powrót</a>
+        {#<a href="{{ path('app_budgetposition_onemonth', {'year': year , 'monthId': month, 'month': month }) }}">Powrót</a>#}
         <h3>Szczegóły kategorii: {{ categoryName }} </h3>
         <br>
         <table class="table">
@@ -24,8 +24,8 @@
                     <td>{{ budgetPosition.description }} </td>
                     <td>{{ budgetPosition.price  /100 }} zł </td>
                     <td>
-                        <a href="{{ path('app_category_deletecategory', {'id': 1 }) }}" class="btn btn-primary">Edytuj</a>
-                        <a href="{{ path('app_category_deletecategory', {'id':  1 }) }}" class="btn btn-danger">Usuń</a>
+                        <a href="" class="btn btn-primary">Edytuj</a>
+                        <a href="" class="btn btn-danger">Usuń</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -38,9 +38,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/addCategory/{year}/{monthId}")
+     * @Route("/{year}/{month}/addCategory/")
      */
-    public function addCategoryAction(Request $request, $year, $monthId)
+    public function addCategoryAction(Request $request, $year, $month)
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -52,7 +52,7 @@ class CategoryController extends Controller
             $em->persist($category);
             $em->flush();
 
-            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'monthId' => $monthId]);
+            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
         }
 
         return $this->render('@App/category/addCategory.html.twig', ['form' => $form->createView()]);
