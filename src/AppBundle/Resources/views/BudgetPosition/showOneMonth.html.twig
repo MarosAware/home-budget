@@ -3,6 +3,32 @@
 
 {% endblock %}
 
+{% block nav %}
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('app_budgetposition_selectyearget') }}">Home Budget</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
+                    <li><a href="{{ path('app_budgetposition_showmonths', {'year': year}) }}">Wybór miesiąca</a></li>
+                    <li><a href="{{ url('app_budgetposition_addposition', {'year': year, 'month': month}) }}">Dodaj Pozycję</a></li>
+                    <li><a href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a></li>
+                    <li><a href="#">Wszystkie Kategorie</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -19,6 +45,7 @@
                 <a class="btn btn-info" href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a>
             </div>
         </div>
+
         <div class="row">
             <h3>Przychody</h3>
             <table class="table">

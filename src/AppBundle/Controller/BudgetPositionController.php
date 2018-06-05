@@ -120,7 +120,7 @@ class BudgetPositionController extends Controller
             return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
         }
 
-        return $this->render('@App/BudgetPosition/add.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/BudgetPosition/add.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
     }
 
 
@@ -146,7 +146,7 @@ class BudgetPositionController extends Controller
             return $this->redirectToRoute('app_category_categorydetails', ['year' => $year, 'month' => $month, 'categoryId' => $categoryId]);
         }
 
-        return $this->render('@App/BudgetPosition/edit.html.twig', ['form' => $form->createView()]);
+        return $this->render('@App/BudgetPosition/edit.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month, 'categoryId' => $categoryId]);
     }
 
     /**
