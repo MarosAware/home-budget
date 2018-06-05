@@ -24,8 +24,8 @@
                     <td>{{ budgetPosition.description }} </td>
                     <td>{{ budgetPosition.price  /100 }} zł </td>
                     <td>
-                        <a href="" class="btn btn-primary">Edytuj</a>
-                        <a href="" class="btn btn-danger">Usuń</a>
+                        <a href="{{ path('app_budgetposition_edit', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-primary">Edytuj</a>
+                        <a href="{{ path('app_budgetposition_delete', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-danger">Usuń</a>
                     </td>
                 </tr>
             {% endfor %}

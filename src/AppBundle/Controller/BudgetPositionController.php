@@ -120,6 +120,7 @@ class BudgetPositionController extends Controller
         if (!$position) {
             return $this->createNotFoundException('Budget position not found.');
         }
+        $categoryId = $position->getCategory()->getId();
 
         $form = $this->createForm(BudgetPositionType::class, $position, ['year' => $year, 'month' => $month]);
         $form->handleRequest($request);
@@ -127,7 +128,7 @@ class BudgetPositionController extends Controller
         if ($form->isValid() && $form->isSubmitted()) {
             $em->flush();
 
-            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
+            return $this->redirectToRoute('app_category_categorydetails', ['year' => $year, 'month' => $month, 'categoryId' => $categoryId]);
         }
 
         return $this->render('@App/BudgetPosition/edit.html.twig', ['form' => $form->createView()]);
@@ -145,9 +146,11 @@ class BudgetPositionController extends Controller
             return $this->createNotFoundException('Budget position not found.');
         }
 
+        $categoryId = $position->getCategory()->getId();
+
         $em->remove($position);
         $em->flush();
 
-        return $this->redirectToRoute('app_budgetposition_onemonth',['year' => $year, 'month' => $month]);
+        return $this->redirectToRoute('app_category_categorydetails', ['year' => $year, 'month' => $month, 'categoryId' => $categoryId]);
     }
 }
