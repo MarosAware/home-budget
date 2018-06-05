@@ -122,7 +122,6 @@ class BudgetPosition
      */
     public function setPrice($price)
     {
-
         $this->price = $price * 100;
 
         return $this;
@@ -191,14 +190,7 @@ class BudgetPosition
         $sum = 0;
 
         foreach ($budgetPositions as $position){
-
-            $category = $position->getCategory();
-            if ($category->getType() === "przychód"){
-                $sum += $position->getPrice();
-
-            }elseif ($category->getType() === "wydatek"){
-                $sum -= $position->getPrice();
-            }
+            $sum += $position->getPrice();
         }
 
         return $sum;

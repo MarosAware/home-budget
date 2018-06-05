@@ -26,7 +26,6 @@
     </nav>
 {% endblock %}
 
-
 {% block body %}
     <div class="container">
         {#<a href="{{ path('app_budgetposition_onemonth', {'year': year , 'monthId': month, 'month': month }) }}">Powrót</a>#}
@@ -48,7 +47,7 @@
                     <td>{{  budgetPosition.date.date |slice (0,10)}}</td>
                     <td>{{ budgetPosition.title }}</td>
                     <td>{{ budgetPosition.description }} </td>
-                    <td>{{ budgetPosition.price }} zł </td>
+                    <td>{{ budgetPosition.price |number_format(2) }} zł </td>
                     <td>
                         <a href="{{ path('app_budgetposition_edit', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-primary">Edytuj</a>
                         <a href="{{ path('app_budgetposition_delete', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-danger">Usuń</a>
@@ -59,7 +58,7 @@
                     <td><strong>Suma: </strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{{ sum }} zł</strong></td>
+                    <td><strong>{{ sum |number_format(2) }} zł</strong></td>
                     <td></td>
                 </tr>
             </tbody>
