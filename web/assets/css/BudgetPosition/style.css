@@ -15,3 +15,6 @@
     color:white;
     text-decoration: none;
 }
+table.main td{
+    width: 50px;
+}

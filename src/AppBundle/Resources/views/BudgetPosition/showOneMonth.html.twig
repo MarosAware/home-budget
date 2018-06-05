@@ -37,22 +37,13 @@
                 <h1 class="text-center">Zestawienie Dla Miesiąca {{ monthTxt | capitalize }}</h1>
             </div>
         </div>
-
-        {#<div class="row">#}
-            {#<div class="col-sm-12 text-center">#}
-                {#<a class="btn btn-primary" href="{{ url('app_budgetposition_addposition', {'year': year, 'month': month}) }}">Dodaj Pozycję</a>#}
-                {#<a class="btn btn-info" href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a>#}
-                {#<a class="btn btn-info" href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a>#}
-            {#</div>#}
-        {#</div>#}
-
-        <div class="row">
+        <div class="col-sm-11">
             <h3>Przychody</h3>
-            <table class="table">
+            <table class="table main">
                 <thead>
                     <tr>
                         <td>Kategoria</td>
-                        <td>Kwota</td>
+                        <td class="text-right">Kwota</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,22 +51,22 @@
                         {% for i  in 0..incomeCategories| length - 1 %}
                             <tr>
                                 <td><a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': incomeCategories[i].id }) }}">{{ incomeCategories[i].name }}</a></td>
-                                <td>{{ incomeCategoriesSums[i] }} zł</td>
+                                <td class="text-right">{{ incomeCategoriesSums[i] |number_format(2) }} zł</td>
                             </tr>
                         {% endfor %}
                     {% endif %}
                     <tr>
                         <td><strong>Suma:</strong></td>
-                        <td><strong>{{ totalIncome }} zł </strong></td>
+                        <td class="text-right"><strong>{{ totalIncome |number_format(2) }} zł </strong></td>
                     </tr>
                 </tbody>
             </table>
             <h3>Wydatki</h3>
-            <table class="table">
+            <table class="table main">
                 <thead>
                 <tr>
                     <td>Kategoria</td>
-                    <td>Kwota</td>
+                    <td class="text-right">Kwota</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -83,20 +74,24 @@
                         {% for i in 0..costCategories|length -1 %}
                             <tr>
                                 <td><a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': costCategories[i].id }) }}">{{ costCategories[i].name }}</td>
-                                <td>{{ costCategoriesSums[i] }} zł</td>
+                                <td class="text-right">{{ costCategoriesSums[i] |number_format(2) }} zł</td>
                             </tr>
                         {% endfor %}
                     {% endif %}
                     <tr>
                         <td><strong>Suma:</strong></td>
-                        <td><strong>{{ totalCost }} zł </strong></td>
+                        <td class="text-right"><strong>{{ totalCost |number_format(2) }} zł </strong></td>
                     </tr>
                 </tbody>
             </table>
             <div>
-                <p> Całkowity przychód: {{ totalIncome }} zł </p>
-                <p> Całkowite wydatki : {{ totalCost }} zł </p>
-                <p> Saldo: {{ totalIncome + totalCost }} zł </p>
+                <p class="text-right"><strong>Całkowity przychód: {{ totalIncome |number_format(2)}} zł</strong></p>
+                <p class="text-right"><strong>Całkowite wydatki : {{ totalCost |number_format(2)}} zł</strong></p>
+                {% if totalIncome < totalCost %}
+                    <p class="text-right text-danger"><strong>Saldo: {{ (totalIncome - totalCost) |number_format(2) }}  zł</strong></p>
+                {% elseif totalIncome >= totalCost %}
+                    <p class="text-right text-success"><strong>Saldo: {{ (totalIncome - totalCost) |number_format(2)}} zł</strong></p>
+                {% endif %}
             </div>
         </div>
     </div>
