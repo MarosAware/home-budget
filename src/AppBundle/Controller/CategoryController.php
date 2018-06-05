@@ -8,7 +8,6 @@ use AppBundle\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -18,6 +17,7 @@ class CategoryController extends Controller
     public function categoryDetailsAction( $year, $month, $categoryId)
     {
         $category = $this->getDoctrine()->getRepository("AppBundle:Category")->find($categoryId);
+
         if (!$category){
             throw $this->createNotFoundException('Category not found');
         }
@@ -28,7 +28,7 @@ class CategoryController extends Controller
             ->getRepository('AppBundle:BudgetPosition')
             ->findByMonthAndCategory($month, $year, $categoryId);
 
-        $sum = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+        $sum = BudgetPosition::sumPositions($budgetPositions);
 
         return $this->render('@App/category/details.html.twig', [
             'budgetPositions' => $budgetPositions,
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('app_category_showcategories', ['year' => $year, 'month' =>$month]);
         }
 
         return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
@@ -90,7 +90,7 @@ class CategoryController extends Controller
     /**
      * @Route("/{year}/{month}/deleteCategory/{id}")
      */
-    public function deleteCategoryAction(Request $request, $id)
+    public function deleteCategoryAction($id, $year, $month)
     {
         $category = $this
             ->getDoctrine()
@@ -105,6 +105,22 @@ class CategoryController extends Controller
         $em->remove($category);
         $em->flush();
 
-        return $this->redirectToRoute('');
+        return $this->redirectToRoute('app_category_showcategories', ['year' => $year, 'month' =>$month]);
+    }
+
+    /**
+     * @Route("/{year}/{month}/showCategories")
+     */
+    public function showCategoriesAction($year, $month)
+    {
+        $categories = $this
+            ->getDoctrine()
+            ->getRepository('AppBundle:Category')
+            ->findAll();
+
+        return $this->render('@App/category/showCategories.html.twig', [
+            'categories' => $categories,
+            'year' => $year,
+            'month' => $month]);
     }
 }
