@@ -15,6 +15,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
                     <li><a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót do miesiąca</a></li>
+                    <li><a href="{{ path('app_budgetposition_addposition', {'year': year, 'month': month, 'categoryId': categoryId }) }}">Dodaj Pozycję</a></li>
                     <li><a href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a></li>
                     <li><a href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a></li>
                 </ul>
@@ -25,7 +26,6 @@
         </div>
     </nav>
 {% endblock %}
-
 
 {% block body %}
     <div class="container">

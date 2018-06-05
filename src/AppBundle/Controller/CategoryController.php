@@ -35,7 +35,9 @@ class CategoryController extends Controller
             'categoryName' => $categoryName,
             'sum' => $sum,
             'year' => $year,
-            'month' => $month,]);
+            'month' => $month,
+            'categoryId' => $categoryId
+            ]);
     }
 
     /**

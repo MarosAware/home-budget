@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\BudgetPosition;
+use AppBundle\Entity\Category;
 use AppBundle\Form\BudgetPositionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -106,9 +107,31 @@ class BudgetPositionController extends Controller
      */
     public function addPositionAction($year, $month, Request $request)
     {
+
+//TODO: Make selected category name when visit this route from category details
+//        $categoryId = $request->query->get('categoryId');
+//
+//        if (isset($categoryId)) {
+//            $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneById($categoryId);
+//
+//            if (!$category) {
+//                return $this->createNotFoundException('Category not found.');
+//            }
+//
+//        }
+//
+//        $em = $this->getDoctrine()->getManager();
+
+
+        //'categoryObj' => isset($category) ? $category : null
+
         $position = new BudgetPosition();
 
-        $form = $this->createForm(BudgetPositionType::class, $position, ['year' => $year, 'month' => $month]);
+        $form = $this->createForm(BudgetPositionType::class, $position,
+            ['year' => $year, 'month' => $month]);
+
+
+
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
@@ -117,7 +140,8 @@ class BudgetPositionController extends Controller
             $em->persist($position);
             $em->flush();
 
-            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
+            $categoryId = $position->getCategory()->getId();
+            return $this->redirectToRoute('app_category_categorydetails', ['year' => $year, 'month' => $month, 'categoryId' => $categoryId]);
         }
 
         return $this->render('@App/BudgetPosition/add.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
