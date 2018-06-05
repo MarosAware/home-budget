@@ -48,6 +48,20 @@ class BudgetPositionController extends Controller
      */
     public function oneMonthAction($year, $month)
     {
+        $months = [
+            '01' =>'Styczeń',
+            '02' => 'Luty',
+            '03' => 'Marzec',
+            '04' => 'Kwiecień',
+            '05' => 'Maj',
+            '06' => 'Czerwiec',
+            '07' => 'Lipiec',
+            '08' => 'Sierpień',
+            '09' => 'Wrzesień',
+            '10' => 'Październik',
+            '11' => 'Listopad',
+            '12' => 'Grudzień'];
+
         $incomeCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('przychód');
         $costCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('wydatek');
 
@@ -78,6 +92,7 @@ class BudgetPositionController extends Controller
         return $this->render('@App/BudgetPosition/showOneMonth.html.twig', [
             'year' => $year,
             'month' => $month,
+            'monthTxt' => $months[$month],
             'incomeCategories' => $incomeCategories,
             'incomeCategoriesSums' => $incomeCategoriesSums,
             'costCategories' => $costCategories,
