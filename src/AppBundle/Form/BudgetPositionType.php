@@ -23,7 +23,7 @@ class BudgetPositionType extends AbstractType
                 ->add('description', TextType::class, ['label' => 'Opis'])
                 ->add('price', NumberType::class, ['label' => 'Kwota', 'scale' => 2])
                 ->add('date', DateType::class, ['label' => 'Data', 'html5' => true,
-                    'widget' => 'choice', 'years' => [$options['year']], 'months' => [$options['monthId']]])
+                    'widget' => 'choice', 'years' => [$options['year']], 'months' => [$options['month']]])
                 ->add('category',  EntityType::class, ['class' =>Category::class, 'label' => 'Kategoria', 'choice_label' => 'name', 'placeholder' => 'Wybierz kategorię']);
     }/**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class BudgetPositionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\BudgetPosition',
             'year' => null,
-            'monthId' => null
+            'month' => null
         ));
     }
 

@@ -86,7 +86,7 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/{year}/{month}/addBudgetPosition")
+     * @Route("/{year}/{month}/addPosition")
      */
     public function addPositionAction($year, $month, Request $request)
     {
@@ -105,5 +105,48 @@ class BudgetPositionController extends Controller
         }
 
         return $this->render('@App/BudgetPosition/add.html.twig', ['form' => $form->createView()]);
+    }
+
+
+    /**
+     * @Route("/{year}/{month}/editPosition/{id}")
+     */
+    public function editAction($year, $month, $id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $position = $em->getRepository('AppBundle:BudgetPosition')->findOneById($id);
+
+        if (!$position) {
+            return $this->createNotFoundException('Budget position not found.');
+        }
+
+        $form = $this->createForm(BudgetPositionType::class, $position, ['year' => $year, 'month' => $month]);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_budgetposition_onemonth', ['year' => $year, 'month' => $month]);
+        }
+
+        return $this->render('@App/BudgetPosition/edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/{year}/{month}/deletePosition/{id}")
+     */
+    public function deleteAction($year, $month, $id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $position = $em->getRepository('AppBundle:BudgetPosition')->findOneById($id);
+
+        if (!$position) {
+            return $this->createNotFoundException('Budget position not found.');
+        }
+
+        $em->remove($position);
+        $em->flush();
+
+        return $this->redirectToRoute('app_budgetposition_onemonth',['year' => $year, 'month' => $month]);
     }
 }

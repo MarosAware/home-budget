@@ -1,0 +1,16 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    <div class="container">
+        <h1 class="text-center">Edytuj pozycję:</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-primary" type="submit" value="Edytuj pozycję">
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
