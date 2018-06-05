@@ -1,0 +1,32 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót </a>
+        <h3>Wszystkie kategorie: </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nazwa kategorii</th>
+                    <th>Typ kategorii</th>
+                    <th>Opcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if categories %}
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.type }}</td>
+                            <td>
+                                <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
+                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

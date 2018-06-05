@@ -186,7 +186,7 @@ class BudgetPosition
         return $this->category;
     }
 
-    public static function sumPositionsByMonthAndCategory($budgetPositions)
+    public static function sumPositions($budgetPositions)
     {
         $sum = 0;
 

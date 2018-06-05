@@ -16,7 +16,7 @@
             <div class="col-sm-12 text-center">
                 <a class="btn btn-primary" href="{{ url('app_budgetposition_addposition', {'year': year, 'month': month}) }}">Dodaj Pozycję</a>
                 <a class="btn btn-info" href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a>
-                <a class="btn btn-info" href="">Wszystkie Kategorie</a>
+                <a class="btn btn-info" href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a>
             </div>
         </div>
         <div class="row">

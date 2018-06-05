@@ -60,7 +60,7 @@ class BudgetPositionController extends Controller
                 ->getRepository("AppBundle:BudgetPosition")
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
-            $incomeCategoriesSums [] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+            $incomeCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
         }
 
         foreach ($costCategories as $category) {
@@ -69,7 +69,7 @@ class BudgetPositionController extends Controller
                 ->getRepository("AppBundle:BudgetPosition")
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
-            $costCategoriesSums [] = BudgetPosition::sumPositionsByMonthAndCategory($budgetPositions);
+            $costCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
         }
         
         $totalIncome = array_sum($incomeCategoriesSums);
