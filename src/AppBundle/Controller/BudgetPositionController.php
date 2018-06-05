@@ -63,8 +63,15 @@ class BudgetPositionController extends Controller
             '11' => 'Listopad',
             '12' => 'Grudzień'];
 
-        $incomeCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('przychód');
-        $costCategories = $this->getDoctrine()->getRepository("AppBundle:Category")->findByType('wydatek');
+        $incomeCategories = $this
+            ->getDoctrine()
+            ->getRepository("AppBundle:Category")
+            ->findBy(array('type' => 'przychód'), array('name'=>'ASC'));
+
+        $costCategories = $this
+            ->getDoctrine()
+            ->getRepository("AppBundle:Category")
+            ->findBy(array('type' => 'wydatek'), array('name'=>'ASC'));
 
         $incomeCategoriesSums = [];
         $costCategoriesSums = [];

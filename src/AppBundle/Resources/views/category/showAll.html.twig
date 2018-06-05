@@ -1,7 +1,5 @@
 {% extends '@App/base.html.twig' %}
-{% block stylesheets %}
 
-{% endblock %}
 
 {% block nav %}
     <nav class="navbar navbar-inverse">
@@ -19,7 +17,6 @@
                     <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
                     <li><a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót do miesiąca</a></li>
                     <li><a href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a></li>
-                    <li><a href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -31,15 +28,32 @@
 
 {% block body %}
     <div class="container">
-        <h1 class="text-center">Dodaj nową pozycję:</h1>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_widget(form.category, {value: 'babcia' } ) }}
-        <input class="btn btn-primary" type="submit" value="Dodaj pozycję">
-        {{ form_end(form) }}
-    </>
-
+        <h3>Wszystkie kategorie: </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nazwa kategorii</th>
+                    <th>Typ kategorii</th>
+                    <th>Opcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if categories %}
+                    {% for category in categories %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': category.id }) }}">{{ category.name }}</a>
+                            </td>
+                            <td>{{ category.type }}</td>
+                            <td>
+                                <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
+                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
-
-
 
