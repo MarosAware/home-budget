@@ -13,9 +13,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
  * @UniqueEntity("name")
- *
  */
-class Category
+class Category implements \JsonSerializable
 {
     /**
      * @var int
@@ -167,5 +166,14 @@ class Category
     public function removeBudgetPosition(\AppBundle\Entity\BudgetPosition $budgetPosition)
     {
         $this->budgetPositions->removeElement($budgetPosition);
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+          'id' => $this->id,
+          'name' => $this->name,
+          'type' => $this->type
+        ];
     }
 }

@@ -16,7 +16,6 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
                     <li><a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót do miesiąca</a></li>
-                    <li><a href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"> </span>Twój profil</a></li>
@@ -29,6 +28,18 @@
 
 {% block body %}
     <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {#<a id="addCategory" class="btn btn-info" href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a>#}
+                <a id="addCategory" class="btn btn-info">Dodaj Kategorię</a>
+
+                <div class="make_hidden">
+                    {#<p>Dziala</p>#}
+                    {{ render(controller('AppBundle:Category:addCategory',{ 'year': year, 'month': month })) }}
+                </div>
+
+            </div>
+        </div>
         <h3>Wszystkie kategorie: </h3>
         <table class="table">
             <thead>
@@ -38,7 +49,7 @@
                     <th>Opcje</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="category_list">
                 {% if categories %}
                     {% for category in categories %}
                         <tr>
@@ -47,8 +58,8 @@
                             </td>
                             <td>{{ category.type }}</td>
                             <td>
-                                <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
-                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
+                                <span data-id="{{ category.id }}" class="btn btn-primary edit">Edytuj</span>
+                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger delete">Usuń</a>
                             </td>
                         </tr>
                     {% endfor %}

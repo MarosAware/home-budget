@@ -1,0 +1,98 @@
+{% extends '@App/base.html.twig' %}
+
+
+
+{% block body %}
+
+    {% block nav %}{% endblock %}
+    <h3>Dodaj nową kategorię: </h3>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit" value="Dodaj">
+    {{ form_end(form) }}
+{#TODO: Remove for loop when edit and delete buton will be works in AJAX#}
+    <script>
+        $(function() {
+
+            var catTable = $('.category_list');
+
+            function makeOneItem(data) {
+                var catId = data.success.id;
+
+                var item = `
+                <tr>
+                      <td>
+                         <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': 0}) }}">${data.success.name}</a>
+                      </td>
+                      <td>${data.success.type}</td>
+                      <td>
+                         <span class="btn btn-primary edit">Edytuj</span>
+                         <span class="btn btn-danger delete">Usuń</span>
+                      </td>
+                </tr>
+            `;
+
+                catTable.prepend(item);
+
+                var linksToChange = catTable.children().eq(0).find('a');
+
+
+                for (var i = 0; i < linksToChange.length; i++) {
+                    var aHref = linksToChange.eq(i).attr('href');
+                    var fixedHref = aHref.slice(0, aHref.length -1) + catId;
+                    linksToChange.eq(i).attr('href', fixedHref);
+                }
+
+            }
+
+
+            var form = $('.make_hidden');
+
+            var addCat = $('#addCategory');
+
+            addCat.on('click', function() {
+
+                form.slideToggle();
+
+                form.on('submit', function(event) {
+                    event.preventDefault();
+
+                    var catName = $('#appbundle_category_name').val();
+                    var selectVal = $('#appbundle_category_type').val();
+
+                    var catType = $('#appbundle_category_type').find('option').eq(selectVal).text();
+
+                    var data = {
+                        "name": catName,
+                        "type": catType
+                    };
+
+                    var path = '{{  path('app_category_addcategory', {'year':year, 'month': month }) }}';
+
+                    $.ajax({
+                        url: path,
+                        data: data,
+                        type: "POST",
+                        dataType: "json"
+                    }).done(function(data) {
+
+                        makeOneItem(data);
+                        form.slideUp();
+                        $('#appbundle_category_name').val('');
+                        $('#appbundle_category_type').val(0);
+                        $('.hidden_inputs').eq(0).val('');
+                        $('.hidden_inputs').eq(1).val('');
+
+                    }).fail(function(xhr,status,err) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(err);
+                    });
+
+                });
+            });
+        });
+
+    </script>
+
+{% endblock %}

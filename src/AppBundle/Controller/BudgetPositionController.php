@@ -115,24 +115,17 @@ class BudgetPositionController extends Controller
     public function addPositionAction($year, $month, Request $request)
     {
 
-//TODO: Make selected category name when visit this route from category details
-//        $categoryId = $request->query->get('categoryId');
-//
-//        if (isset($categoryId)) {
-//            $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneById($categoryId);
-//
-//            if (!$category) {
-//                return $this->createNotFoundException('Category not found.');
-//            }
-//
-//        }
-//
-//        $em = $this->getDoctrine()->getManager();
-
-
-        //'categoryObj' => isset($category) ? $category : null
-
+        $categoryId = $request->query->get('categoryId');
         $position = new BudgetPosition();
+
+        if (isset($categoryId)) {
+            $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneById($categoryId);
+
+            $position->setCategory($category);
+
+        }
+
+
 
         $form = $this->createForm(BudgetPositionType::class, $position,
             ['year' => $year, 'month' => $month]);
