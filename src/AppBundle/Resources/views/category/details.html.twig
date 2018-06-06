@@ -32,38 +32,55 @@
         {#<a href="{{ path('app_budgetposition_onemonth', {'year': year , 'monthId': month, 'month': month }) }}">Powrót</a>#}
         <h3>Szczegóły kategorii: {{ categoryName }} </h3>
         <br>
-        <table class="table">
+        <table class="table details">
             <thead>
                 <tr>
                     <th>Data</th>
                     <th>Tytuł</th>
-                    <th>Opis</th>
                     <th>Kwota</th>
                     <th>Opcje</th>
                 </tr>
+                <tr></tr>
             </thead>
             <tbody>
             {% for budgetPosition in budgetPositions %}
-                <tr>
+                <tr class="onePosition">
                     <td>{{  budgetPosition.date.date |slice (0,10)}}</td>
                     <td>{{ budgetPosition.title }}</td>
-                    <td>{{ budgetPosition.description }} </td>
                     <td>{{ budgetPosition.price |number_format(2) }} zł </td>
                     <td>
                         <a href="{{ path('app_budgetposition_edit', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-primary">Edytuj</a>
                         <a href="{{ path('app_budgetposition_delete', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-danger">Usuń</a>
                     </td>
                 </tr>
+                <tr class="hiddenDetails">
+                    <th>Opis:</th>
+                    <td colspan="3">{{ budgetPosition.description }}</td>
+                </tr>
             {% endfor %}
                 <tr>
                     <td><strong>Suma: </strong></td>
                     <td></td>
-                    <td></td>
                     <td><strong>{{ sum |number_format(2) }} zł</strong></td>
+                    <td></td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <script>
+        $(function() {
+
+            var position = $('.onePosition');
+            position.css( 'cursor', 'pointer' );
+
+            $('.onePosition').on('click', function(){
+
+                var details = $(this).next();
+
+                details.slideToggle();
+            })
+        });
+    </script>
 {% endblock %}
 
