@@ -3,12 +3,16 @@
 {% block body %}
 
     <div class="container">
-        <h1>Zaplanuj swój budżet!</h1>
-        <form class="form-group" action="" method="POST">
-            <label for="">Wybierz rok:
-                <input class="form-control" name="year" type="number" min="2018" max="2037" step="1" value="{{year}}" />
-            </label>
-            <input class="btn btn-primary" type="submit" value="Wybierz">
-        </form>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Zaplanuj swój budżet!</h1><br>
+                <form class="form-group" action="" method="POST">
+                    <label for="">Wybierz rok:
+                        <input class="form-control" name="year" type="number" min="2018" max="2037" step="1" value="{{year}}" />
+                    </label><br><br>
+                    <input class="btn btn-default" type="submit" value="Przejdź dalej">
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
