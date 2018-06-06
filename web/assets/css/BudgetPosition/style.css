@@ -18,3 +18,7 @@
 table.main td{
     width: 50px;
 }
+
+.make_hidden {
+    display: none;
+}
