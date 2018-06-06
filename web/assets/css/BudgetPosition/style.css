@@ -1,24 +1,37 @@
-
+body{
+    background-image: url("img/lightpaperfibers.png");
+}
 .month-item a {
     display:block;
     padding: 30px;
     margin:0 auto;
     text-align: center;
-    background-color: white;
     text-decoration: none;
-    color:#007c80;
+    color: #939393;
     font-size: 3rem;
 }
 
 .month-item a:hover {
-    background-color:#007c80;
-    color:white;
+    background-color:#f6f6f6;
+    color:#737373;
     text-decoration: none;
 }
+
 table.main td{
     width: 50px;
 }
 
+<<<<<<< HEAD
 .make_hidden {
     display: none;
 }
+=======
+.hiddenDetails{
+    display: none;
+    color: grey;
+}
+
+table.details td,th{
+    width: 50px;
+}
+>>>>>>> c6309e45e02f9e357957c16790c3ae2927e45bcf

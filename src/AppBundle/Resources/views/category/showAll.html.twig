@@ -18,7 +18,8 @@
                     <li><a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót do miesiąca</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"> </span>Twój profil</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </div>
         </div>

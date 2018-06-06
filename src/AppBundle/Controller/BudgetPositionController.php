@@ -35,7 +35,7 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/{year}/")
+     * @Route("/{year}/", requirements={"year"="\d+"})
      */
 
     public function showMonthsAction($year)
@@ -45,7 +45,7 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/{year}/{month}")
+     * @Route("/{year}/{month}", requirements={"year"="\d+", "month"="\d+"} )
      */
     public function oneMonthAction($year, $month)
     {
