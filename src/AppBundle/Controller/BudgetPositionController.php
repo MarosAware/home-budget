@@ -114,7 +114,7 @@ class BudgetPositionController extends Controller
      */
     public function addPositionAction($year, $month, Request $request)
     {
-
+        
         $categoryId = $request->query->get('categoryId');
         $position = new BudgetPosition();
 

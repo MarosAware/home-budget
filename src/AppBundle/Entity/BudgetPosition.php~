@@ -61,6 +61,12 @@ class BudgetPosition
      */
     private $category;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="budgetPositions")
+     * @Assert\NotNull()
+     */
+    private $user;
+
 
     /**
      * Get id
