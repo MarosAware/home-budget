@@ -61,6 +61,12 @@ class BudgetPosition
      */
     private $category;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="budgetPositions")
+     * @Assert\NotNull()
+     */
+    private $user;
+
 
     /**
      * Get id
@@ -201,5 +207,29 @@ class BudgetPosition
         }
 
         return $sum;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return BudgetPosition
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

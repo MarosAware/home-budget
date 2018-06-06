@@ -76,7 +76,11 @@ class CategoryController extends Controller
      */
     public function addCategoryAction(Request $request, $year, $month)
     {
+        $user = $this->getUser();
+
+
         $category = new Category();
+        $category->setUser($user);
         $form = $this->createForm(CategoryType::class, $category);
 
 

@@ -47,6 +47,12 @@ class Category implements \JsonSerializable
      */
     private $budgetPositions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="categories")
+     * @Assert\NotNull()
+     */
+    private $user;
+
     public function __construct()
     {
         $this->budgetPositions = new ArrayCollection();
@@ -175,5 +181,29 @@ class Category implements \JsonSerializable
           'name' => $this->name,
           'type' => $this->type
         ];
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Category
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

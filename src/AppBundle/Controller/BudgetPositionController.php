@@ -114,9 +114,11 @@ class BudgetPositionController extends Controller
      */
     public function addPositionAction($year, $month, Request $request)
     {
-
+        $user = $this->getUser();
         $categoryId = $request->query->get('categoryId');
         $position = new BudgetPosition();
+
+        $position->setUser($user);
 
         if (isset($categoryId)) {
             $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneById($categoryId);
