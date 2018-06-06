@@ -26,8 +26,8 @@
                       </td>
                       <td>${data.success.type}</td>
                       <td>
-                         <span class="btn btn-primary edit">Edytuj</span>
-                         <span class="btn btn-danger delete">Usuń</span>
+                         <a href="{{ path('app_category_modifycategory', {'month': month, 'year': year, 'id': 0}) }}" class="btn btn-primary edit">Edytuj</a>
+                         <a href="{{ path('app_category_deletecategory', {'month': month, 'year': year, 'id': 0}) }}" class="btn btn-danger delete">Usuń</a>
                       </td>
                 </tr>
             `;
@@ -62,33 +62,36 @@
 
                     var catType = $('#appbundle_category_type').find('option').eq(selectVal).text();
 
-                    var data = {
-                        "name": catName,
-                        "type": catType
-                    };
+                    if (catType === 'przychód' || catType === 'wydatek') {
 
-                    var path = '{{  path('app_category_addcategory', {'year':year, 'month': month }) }}';
 
-                    $.ajax({
-                        url: path,
-                        data: data,
-                        type: "POST",
-                        dataType: "json"
-                    }).done(function(data) {
+                        var data = {
+                            "name": catName,
+                            "type": catType
+                        };
 
-                        makeOneItem(data);
-                        form.slideUp();
-                        $('#appbundle_category_name').val('');
-                        $('#appbundle_category_type').val(0);
-                        $('.hidden_inputs').eq(0).val('');
-                        $('.hidden_inputs').eq(1).val('');
+                        var path = '{{ path('app_category_addcategory', {'year':year, 'month': month }) }}';
 
-                    }).fail(function(xhr,status,err) {
-                        console.log(xhr);
-                        console.log(status);
-                        console.log(err);
-                    });
+                        $.ajax({
+                            url: path,
+                            data: data,
+                            type: "POST",
+                            dataType: "json"
+                        }).done(function (data) {
 
+                            makeOneItem(data);
+                            form.slideUp();
+                            $('#appbundle_category_name').val('');
+                            $('#appbundle_category_type').val(0);
+                            $('.hidden_inputs').eq(0).val('');
+                            $('.hidden_inputs').eq(1).val('');
+
+                        }).fail(function (xhr, status, err) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(err);
+                        });
+                    }
                 });
             });
         });

@@ -79,9 +79,11 @@ class CategoryController extends Controller
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
 
-//        $form->handleRequest($request);
 
-        if($request->isXmlHttpRequest()){
+        if($request->isXmlHttpRequest()) {
+
+
+
             $em = $this->getDoctrine()->getManager();
 
             $name = $request->request->get('name');
@@ -156,7 +158,7 @@ class CategoryController extends Controller
             return $this->redirectToRoute('app_category_showcategories', ['year' => $year, 'month' =>$month]);
         }
 
-        return $this->render('@App/category/modifyCategory.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month, 'categoryId' => $id]);
+        return $this->render('@App/category/modify.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month, 'categoryId' => $id]);
     }
 
     /**

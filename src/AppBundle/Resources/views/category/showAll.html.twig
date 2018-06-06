@@ -31,12 +31,18 @@
         <div class="row">
             <div class="col-md-12">
                 {#<a id="addCategory" class="btn btn-info" href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a>#}
-                <a id="addCategory" class="btn btn-info">Dodaj Kategorię</a>
+                <a id="addCategory" class="btn btn-primary">Dodaj Kategorię</a>
 
                 <div class="make_hidden">
-                    {#<p>Dziala</p>#}
+
                     {{ render(controller('AppBundle:Category:addCategory',{ 'year': year, 'month': month })) }}
+
                 </div>
+
+                {#I don't have id in this view to pre render modify controller, and also id will be various.#}
+                {#<div class="make_hidden">#}
+                    {#{{ render(controller('AppBundle:Category:modifyCategory',{ 'year': year, 'month': month, 'id': 0 })) }}#}
+                {#</div>#}
 
             </div>
         </div>
@@ -58,8 +64,8 @@
                             </td>
                             <td>{{ category.type }}</td>
                             <td>
-                                <span data-id="{{ category.id }}" class="btn btn-primary edit">Edytuj</span>
-                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger delete">Usuń</a>
+                                <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
+                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
                             </td>
                         </tr>
                     {% endfor %}
