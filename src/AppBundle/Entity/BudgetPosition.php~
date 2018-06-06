@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * BudgetPosition
@@ -25,6 +26,8 @@ class BudgetPosition
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="255", maxMessage="Your title is too long. Allowed 255 character.")
      */
     private $title;
 
@@ -32,6 +35,7 @@ class BudgetPosition
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Assert\Length(max="600", maxMessage="Your description is too long. Allowed 600 character.")
      */
     private $description;
 
@@ -39,6 +43,7 @@ class BudgetPosition
      * @var int
      *
      * @ORM\Column(name="price", type="integer")
+     * @Assert\Type(type="numeric")
      */
     private $price;
 
@@ -46,11 +51,13 @@ class BudgetPosition
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date")
+     * @Assert\Date()
      */
     private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="budgetPositions")
+     * @Assert\NotNull()
      */
     private $category;
 
@@ -122,7 +129,6 @@ class BudgetPosition
      */
     public function setPrice($price)
     {
-
         $this->price = $price * 100;
 
         return $this;
@@ -186,19 +192,12 @@ class BudgetPosition
         return $this->category;
     }
 
-    public static function sumPositionsByMonthAndCategory($budgetPositions)
+    public static function sumPositions($budgetPositions)
     {
         $sum = 0;
 
         foreach ($budgetPositions as $position){
-
-            $category = $position->getCategory();
-            if ($category->getType() === "przychód"){
-                $sum += $position->getPrice();
-
-            }elseif ($category->getType() === "wydatek"){
-                $sum -= $position->getPrice();
-            }
+            $sum += $position->getPrice();
         }
 
         return $sum;
