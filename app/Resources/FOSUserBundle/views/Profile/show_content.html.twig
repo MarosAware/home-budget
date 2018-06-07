@@ -1,7 +1,19 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% if user.photo is null %}
+    {% set photoName = 'avatar.jpeg' %}
+
+{% else %}
+    {% set photoName = user.photo.name %}
+
+{% endif %}
+
 <div class="fos_user_user_show ">
-    <h3>Twój profil:</h3><br>
+    <h3>Twój profil:</h3>
+    <div class="col-sm-6">
+        <div class="profile-image" style="background-image: url({{ asset('uploads/photos/' ~ photoName) }});"></div>
+    </div>
+
     <table class="table details">
         <tr>
             <th>{{ 'profile.show.username'|trans }}:</th>
@@ -12,4 +24,14 @@
             <td>{{ user.email }}</td>
         </tr>
     </table>
+
+    <div class="col-sm-12">
+        {% if photoName == 'avatar.jpeg' %}
+            <a class="btn btn-primary" href="{{ path('photo_new') }}">Dodaj zdjęcie</a>
+
+        {% else %}
+            <a class="btn btn-primary" href="{{ path('photo_edit', {'id': user.photo.id}) }}">Edytuj zdjęcie</a>
+        {% endif %}
+
+    </div>
 </div>

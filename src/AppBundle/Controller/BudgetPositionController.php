@@ -105,7 +105,6 @@ class BudgetPositionController extends Controller
             $costCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
             $chartData[] = [$category->getName(), end($costCategoriesSums)];
         }
-        array_push($chartData, ['Jakiestam', 100]);
 
         //var_dump($chartData);
         

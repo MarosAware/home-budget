@@ -39,4 +39,77 @@ class User extends BaseUser
      */
     private $categories;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Photo", mappedBy="user", cascade={"remove"})
+     */
+    private $photo;
+
+
+    /**
+     * Add budgetPosition
+     *
+     * @param \AppBundle\Entity\BudgetPosition $budgetPosition
+     *
+     * @return User
+     */
+    public function addBudgetPosition(\AppBundle\Entity\BudgetPosition $budgetPosition)
+    {
+        $this->budgetPositions[] = $budgetPosition;
+
+        return $this;
+    }
+
+    /**
+     * Remove budgetPosition
+     *
+     * @param \AppBundle\Entity\BudgetPosition $budgetPosition
+     */
+    public function removeBudgetPosition(\AppBundle\Entity\BudgetPosition $budgetPosition)
+    {
+        $this->budgetPositions->removeElement($budgetPosition);
+    }
+
+    /**
+     * Get budgetPositions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBudgetPositions()
+    {
+        return $this->budgetPositions;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return User
+     */
+    public function addCategory(\AppBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \AppBundle\Entity\Category $category
+     */
+    public function removeCategory(\AppBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 }
