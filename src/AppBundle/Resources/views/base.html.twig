@@ -27,9 +27,11 @@
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
+                            <li><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Twój profil</a></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -37,6 +39,5 @@
         {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
-        <script src="{{ asset('assets/js/addCategory.js') }}"></script>
     </body>
 </html>

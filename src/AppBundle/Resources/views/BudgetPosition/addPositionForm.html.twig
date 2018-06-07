@@ -1,0 +1,113 @@
+{% extends '@App/base.html.twig' %}
+{% block nav %}{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center">Dodaj nową pozycję:</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="btn btn-primary" type="submit" value="Dodaj pozycję">
+    {{ form_end(form) }}
+
+    <script>
+        $(function() {
+            var positionsTable = $('.position_list');
+            var addPosition = $('#addPosition');
+            var form = $('.make_hidden');
+
+            function newPosition(data){
+                var date = (data.success.date.date).slice(0,10);
+                var price = (data.success.price)/100;
+                var priceFormatted = price.toFixed(2);
+                var id = data.success.id;
+
+                var el = `
+                    <tr>
+                        <td class="onePosition"></td>
+                        <td class="onePosition">${data.success.title }</td>
+                        <td class="onePosition"></td>
+                        <td>
+                            <a href="{{ path('app_budgetposition_edit', {'month': month, 'year': year, 'id': 0 }) }}" class="btn btn-primary">Edytuj</a>
+                            <a href="{{ path('app_budgetposition_delete', {'month': month, 'year': year, 'id': 0 }) }}" class="btn btn-danger">Usuń</a>
+                        </td>
+                    </tr>
+                    <tr class="hiddenDetails">
+                        <th>Opis:</th>
+                        <td colspan="3">${data.success.description}</td>
+                    </tr>
+                    `;
+
+                positionsTable.prepend(el);
+
+                $('.onePosition').eq(0).text(date);
+                $('.onePosition').eq(2).text(priceFormatted + ' zł');
+
+                var links = positionsTable.children().eq(0).find('a');
+
+                for( var i = 0; i < links.length; i++){
+                    var href = links.eq(i).attr('href');
+                    var validHref = href.slice(0, href.length - 1) + id;
+                    links.eq(i).attr('href', validHref);
+                }
+
+
+                $('.onePosition').css( 'cursor', 'pointer' );
+
+                $('.onePosition').on('click', function(){
+                    var details = $(this).parent().next();
+                    details.slideToggle();
+                })
+            }
+
+            addPosition.on('click', function() {
+               form.slideToggle();
+
+               form.on('submit', function (event) {
+                  event.preventDefault();
+
+                  var title = $('#appbundle_budgetposition_title').val();
+                  var description = $('#appbundle_budgetposition_description').val();
+                  var price = $('#appbundle_budgetposition_price').val();
+                  var year = $('#appbundle_budgetposition_date_year').val();
+                  var month = $('#appbundle_budgetposition_date_month').val();
+                  var day = $('#appbundle_budgetposition_date_day').val();
+                  var category = $('#appbundle_budgetposition_category').val();
+
+                  var position = {
+                      "title": title,
+                      "description": description,
+                      "price": price,
+                      "date": year + '-' + month + '-' + day,
+                      "category": category
+                  };
+
+                  var path = '{{ path('app_budgetposition_addposition', {'year': year, 'month': month }) }}';
+
+                  $.ajax({
+                      url: path,
+                      data: position,
+                      type: "POST",
+                      dataType: "json"
+                  }).done(function (data) {
+
+                      newPosition(data);
+                      form.slideUp();
+
+                      $('#appbundle_budgetposition_title').val('');
+                      $('#appbundle_budgetposition_description').val('');
+                      $('#appbundle_budgetposition_price').val('0.00');
+                      $('#appbundle_budgetposition_date_day').val('1');
+
+                  }).fail(function (xhr, status, err) {
+                      console.log(xhr);
+                      console.log(status);
+                      console.log(err);
+                  })
+               })
+            })
+        });
+    </script>
+{% endblock %}
+
+
+
