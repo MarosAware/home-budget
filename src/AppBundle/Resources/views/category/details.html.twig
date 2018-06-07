@@ -19,7 +19,7 @@
                     <li><a href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"> </span>Twój profil</a></li>
+                    <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Twój profil</a></li>
                     <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </div>
@@ -44,10 +44,10 @@
             </thead>
             <tbody>
             {% for budgetPosition in budgetPositions %}
-                <tr class="onePosition">
-                    <td>{{  budgetPosition.date.date |slice (0,10)}}</td>
-                    <td>{{ budgetPosition.title }}</td>
-                    <td>{{ budgetPosition.price |number_format(2) }} zł </td>
+                <tr>
+                    <td class="onePosition">{{  budgetPosition.date.date |slice (0,10)}}</td>
+                    <td class="onePosition">{{ budgetPosition.title }}</td>
+                    <td class="onePosition">{{ budgetPosition.price |number_format(2) }} zł </td>
                     <td>
                         <a href="{{ path('app_budgetposition_edit', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-primary">Edytuj</a>
                         <a href="{{ path('app_budgetposition_delete', {'month': month, 'year': year, 'id': budgetPosition.id }) }}" class="btn btn-danger">Usuń</a>
@@ -74,7 +74,7 @@
             position.css( 'cursor', 'pointer' );
 
             $('.onePosition').on('click', function(){
-                var details = $(this).next();
+                var details = $(this).parent().next();
                 details.slideToggle();
             })
         });

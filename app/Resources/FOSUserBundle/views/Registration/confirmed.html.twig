@@ -1,0 +1,12 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="col-md-8 text-center">
+        <p> Gratulacje {{  user.username }}, Twoje konto zostało założone!</p>
+        {% if targetUrl %}
+            <p class="btn"><a href="{{ targetUrl }}">{{ 'Przejdź do budżetu' }}</a></p>
+        {% endif %}
+    </div>
+{% endblock fos_user_content %}
