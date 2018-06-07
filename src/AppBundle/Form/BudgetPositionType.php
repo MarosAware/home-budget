@@ -28,10 +28,7 @@ class BudgetPositionType extends AbstractType
                 ->add('description', TextType::class, ['label' => 'Opis', 'required' => false])
                 ->add('price', NumberType::class, ['label' => 'Kwota', 'scale' => 2])
                 ->add('date', DateType::class, ['label' => 'Data', 'html5' => true,
-                    'widget' => 'choice', 'years' => [$options['year']], 'months' => [$options['month']]])
-                ->add('category',  EntityType::class,
-                    ['class' =>Category::class,
-                        'label' => 'Kategoria', 'choice_label' => 'name', 'placeholder' => '--Wybierz kategorię--']);
+                    'widget' => 'choice', 'years' => [$options['year']], 'months' => [$options['month']]]);
     }
 
     /**

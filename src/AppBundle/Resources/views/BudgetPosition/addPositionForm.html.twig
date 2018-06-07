@@ -6,7 +6,7 @@
     <h1 class="text-center">Dodaj nową pozycję:</h1>
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <input class="btn btn-primary" type="submit" value="Dodaj pozycję">
+    <input class="btn btn-primary" type="submit" value="Dodaj">
     {{ form_end(form) }}
 
     <script>
@@ -61,50 +61,51 @@
 
             addPosition.on('click', function() {
                form.slideToggle();
+            });
 
-               form.on('submit', function (event) {
-                  event.preventDefault();
+            form.on('submit', function (event) {
+                event.preventDefault();
 
-                  var title = $('#appbundle_budgetposition_title').val();
-                  var description = $('#appbundle_budgetposition_description').val();
-                  var price = $('#appbundle_budgetposition_price').val();
-                  var year = $('#appbundle_budgetposition_date_year').val();
-                  var month = $('#appbundle_budgetposition_date_month').val();
-                  var day = $('#appbundle_budgetposition_date_day').val();
-                  var category = $('#appbundle_budgetposition_category').val();
+                var title = $('#appbundle_budgetposition_title').val();
+                var description = $('#appbundle_budgetposition_description').val();
+                var price = $('#appbundle_budgetposition_price').val();
+                var year = $('#appbundle_budgetposition_date_year').val();
+                var month = $('#appbundle_budgetposition_date_month').val();
+                var day = $('#appbundle_budgetposition_date_day').val();
+                var category = $('#appbundle_budgetposition_category').val();
 
-                  var position = {
-                      "title": title,
-                      "description": description,
-                      "price": price,
-                      "date": year + '-' + month + '-' + day,
-                      "category": category
-                  };
+                var position = {
+                    "title": title,
+                    "description": description,
+                    "price": price,
+                    "date": year + '-' + month + '-' + day,
+                    "category": category
+                };
 
-                  var path = '{{ path('app_budgetposition_addposition', {'year': year, 'month': month }) }}';
+                var path = '{{ path('app_budgetposition_addposition', {'year': year, 'month': month, 'categoryId': categoryId }) }}';
 
-                  $.ajax({
-                      url: path,
-                      data: position,
-                      type: "POST",
-                      dataType: "json"
-                  }).done(function (data) {
+                $.ajax({
+                    url: path,
+                    data: position,
+                    type: "POST",
+                    dataType: "json"
+                }).done(function (data) {
 
-                      newPosition(data);
-                      form.slideUp();
+                    newPosition(data);
+                    form.slideUp();
 
-                      $('#appbundle_budgetposition_title').val('');
-                      $('#appbundle_budgetposition_description').val('');
-                      $('#appbundle_budgetposition_price').val('0.00');
-                      $('#appbundle_budgetposition_date_day').val('1');
+                    $('#appbundle_budgetposition_title').val('');
+                    $('#appbundle_budgetposition_description').val('');
+                    $('#appbundle_budgetposition_price').val('0.00');
+                    $('#appbundle_budgetposition_date_day').val('1');
 
-                  }).fail(function (xhr, status, err) {
-                      console.log(xhr);
-                      console.log(status);
-                      console.log(err);
-                  })
-               })
+                }).fail(function (xhr, status, err) {
+                    console.log(xhr);
+                    console.log(status);
+                    console.log(err);
+                })
             })
+
         });
     </script>
 {% endblock %}

@@ -34,7 +34,7 @@
                 <a id="addPosition" class="btn btn-primary">Dodaj nową pozycję</a>
 
                 <div class="make_hidden">
-                    {{ render(controller('AppBundle:BudgetPosition:addPosition',{ 'year': year, 'month': month })) }}
+                    {{ render(controller('AppBundle:BudgetPosition:addPosition',{ 'year': year, 'month': month, 'categoryId': categoryId })) }}
                 </div>
             </div>
         </div>
