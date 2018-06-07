@@ -160,20 +160,12 @@ class BudgetPositionController extends Controller
     }
 
     /**
-     * @Route("/{year}/{month}/addPosition")
+     * @Route("/{year}/{month}/addPosition/{categoryId}")
      */
-    public function addPositionAction($year, $month, Request $request)
+    public function addPositionAction($year, $month, Request $request, $categoryId)
     {
         $position = new BudgetPosition();
-        $categoryId = $request->query->get('categoryId');
         $user = $this->getUser();
-
-        if (isset($categoryId)) {
-            $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneById($categoryId);
-
-            $position->setCategory($category);
-
-        }
 
         $form = $this->createForm(BudgetPositionType::class, $position,
             ['year' => $year, 'month' => $month]);
@@ -187,7 +179,6 @@ class BudgetPositionController extends Controller
             $description = $request->request->get('description');
             $price = $request->request->get('price');
             $date = $request->request->get('date');
-            $categoryId = $request->request->get('category');
 
 
             $category = $this
@@ -211,7 +202,7 @@ class BudgetPositionController extends Controller
             return new JsonResponse(array('success' => $position), 200);
         }
 
-        return $this->render('@App/BudgetPosition/addPositionForm.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
+        return $this->render('@App/BudgetPosition/addPositionForm.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month, 'categoryId'=> $categoryId]);
 
     }
 
