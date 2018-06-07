@@ -13,9 +13,8 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
+                    <li><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
                     <li><a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót do miesiąca</a></li>
-                    <li><a href="{{ path('app_budgetposition_addposition', {'year': year, 'month': month, 'categoryId': categoryId }) }}">Dodaj Pozycję</a></li>
                     <li><a href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -30,6 +29,15 @@
 {% block body %}
     <div class="container">
         {#<a href="{{ path('app_budgetposition_onemonth', {'year': year , 'monthId': month, 'month': month }) }}">Powrót</a>#}
+        <div class="row">
+            <div class="col-md-12">
+                <a id="addPosition" class="btn btn-primary">Dodaj nową pozycję</a>
+
+                <div class="make_hidden">
+                    {{ render(controller('AppBundle:BudgetPosition:addPosition',{ 'year': year, 'month': month })) }}
+                </div>
+            </div>
+        </div>
         <h3>Szczegóły kategorii: {{ categoryName }} </h3>
         <br>
         <table class="table details">
@@ -42,7 +50,7 @@
                 </tr>
                 <tr></tr>
             </thead>
-            <tbody>
+            <tbody class="position_list">
             {% for budgetPosition in budgetPositions %}
                 <tr>
                     <td class="onePosition">{{  budgetPosition.date.date |slice (0,10)}}</td>
@@ -73,7 +81,7 @@
             var position = $('.onePosition');
             position.css( 'cursor', 'pointer' );
 
-            $('.onePosition').on('click', function(){
+            position.on('click', function(){
                 var details = $(this).parent().next();
                 details.slideToggle();
             })

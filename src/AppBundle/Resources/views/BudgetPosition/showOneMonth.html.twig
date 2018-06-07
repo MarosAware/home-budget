@@ -16,9 +16,8 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
+                    <li><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
                     <li><a href="{{ path('app_budgetposition_showmonths', {'year': year}) }}">Wybór miesiąca</a></li>
-                    <li><a href="{{ path('app_budgetposition_addposition', {'year': year, 'month': month}) }}">Dodaj Pozycję</a></li>
                     <li><a href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

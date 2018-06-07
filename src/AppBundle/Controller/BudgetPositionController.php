@@ -7,6 +7,7 @@ use AppBundle\Form\BudgetPositionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts;
 
@@ -105,7 +106,6 @@ class BudgetPositionController extends Controller
             $costCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
             $chartData[] = [$category->getName(), end($costCategoriesSums)];
         }
-        array_push($chartData, ['Jakiestam', 100]);
 
         //var_dump($chartData);
         
@@ -164,11 +164,9 @@ class BudgetPositionController extends Controller
      */
     public function addPositionAction($year, $month, Request $request)
     {
-        $user = $this->getUser();
-        $categoryId = $request->query->get('categoryId');
         $position = new BudgetPosition();
-
-        $position->setUser($user);
+        $categoryId = $request->query->get('categoryId');
+        $user = $this->getUser();
 
         if (isset($categoryId)) {
             $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneById($categoryId);
@@ -177,26 +175,42 @@ class BudgetPositionController extends Controller
 
         }
 
-
-
         $form = $this->createForm(BudgetPositionType::class, $position,
             ['year' => $year, 'month' => $month]);
 
+        if($request->isXmlHttpRequest()) {
 
-
-        $form->handleRequest($request);
-
-        if ($form->isValid() && $form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
+
+            $title = $request->request->get('title');
+            $description = $request->request->get('description');
+            $price = $request->request->get('price');
+            $date = $request->request->get('date');
+            $categoryId = $request->request->get('category');
+
+            $category = $this
+                ->getDoctrine()
+                ->getRepository("AppBundle:Category")
+                ->find($categoryId);
+
+            $dateObj = new \DateTime($date);
+
+            $position->setTitle($title);
+            $position->setDescription($description);
+            $position->setPrice($price);
+            $position->setDate($dateObj);
+            $position->setCategory($category);
+            $position->setUser($user);
 
             $em->persist($position);
             $em->flush();
 
-            $categoryId = $position->getCategory()->getId();
-            return $this->redirectToRoute('app_category_categorydetails', ['year' => $year, 'month' => $month, 'categoryId' => $categoryId]);
+
+            return new JsonResponse(array('success' => $position), 200);
         }
 
-        return $this->render('@App/BudgetPosition/add.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
+        return $this->render('@App/BudgetPosition/addPositionForm.html.twig', ['form' => $form->createView(), 'year' => $year, 'month' => $month]);
+
     }
 
 
