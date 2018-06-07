@@ -12,7 +12,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
- * @UniqueEntity("name")
  */
 class Category implements \JsonSerializable
 {
@@ -28,7 +27,7 @@ class Category implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotNull()
      * @Assert\Length(max="255", maxMessage="Category name too long. Allowed 255 characters.")
      */
