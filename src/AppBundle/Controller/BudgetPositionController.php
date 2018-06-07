@@ -178,6 +178,7 @@ class BudgetPositionController extends Controller
         $form = $this->createForm(BudgetPositionType::class, $position,
             ['year' => $year, 'month' => $month]);
 
+
         if($request->isXmlHttpRequest()) {
 
             $em = $this->getDoctrine()->getManager();
@@ -187,6 +188,7 @@ class BudgetPositionController extends Controller
             $price = $request->request->get('price');
             $date = $request->request->get('date');
             $categoryId = $request->request->get('category');
+
 
             $category = $this
                 ->getDoctrine()

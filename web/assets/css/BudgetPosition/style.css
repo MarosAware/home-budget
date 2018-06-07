@@ -50,3 +50,21 @@ table.details td,th{
     border-bottom-right-radius: 0;
 }
 
+.profile-image {
+    width: 150px;
+    height: 150px;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    -webkit-border-radius: 20%;
+    -moz-border-radius: 20%;
+    border-radius: 20%;
+}
+
+.profile-image img {
+    width: 400px;
+    height: 300px;
+    display: block;
+}
+
+

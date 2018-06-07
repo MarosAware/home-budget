@@ -108,14 +108,16 @@
 
     <hr>
 
-    <div class="charts" id="#chart" class="container-fluid">
+    <div id="#chart" class="container-fluid charts">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
                 <div id="div_chart"></div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <div id="div_chart2"></div>
             </div>
+            <div class="col-sm-1"></div>
         </div>
     </div>
 
@@ -129,7 +131,6 @@
 
             var charts = $('.charts');
             charts.slideUp();
-            console.log(charts);
 
             btn.on('click', function() {
                 $('body,html').animate({ scrollTop: $elem.height()}, 800);

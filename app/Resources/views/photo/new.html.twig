@@ -13,12 +13,12 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ path('app_budgetposition_selectyearget') }}">Wybór Roku</a></li>
-                    <li><a href="{{ path('app_budgetposition_onemonth', {'year': year, 'month': month}) }}">Powrót do miesiąca</a></li>
-                    <li><a href="{{ path('app_category_showcategories', {'year': year, 'month': month}) }}">Wszystkie Kategorie</a></li>
+                    <li><a href="{{ path('fos_user_profile_edit') }}">Edytuj profil</a></li>
+                    <li><a href="{{ path('fos_user_change_password') }}">Zmień hasło</a></li>
+                    <li><a href="{{ path('app_budgetposition_selectyearget') }}">Powrót do budżetu</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Twój profil</a></li>
+                    <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"> </span>Twój profil</a></li>
                     <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </div>
@@ -28,12 +28,19 @@
 
 {% block body %}
     <div class="container">
-        <div class="col-sm-10">
-            <h3>Dodaj nową kategorię: </h3>
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <input class="btn btn-primary" type="submit" value="Dodaj">
-            {{ form_end(form) }}
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 content-center">
+                <h1>Dodaj zdjęcie:</h1>
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input class="btn btn-primary" type="submit" value="Dodaj" />
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-4"></div>
         </div>
     </div>
+
+
 {% endblock %}

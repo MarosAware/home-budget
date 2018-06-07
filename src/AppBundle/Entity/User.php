@@ -39,6 +39,11 @@ class User extends BaseUser
      */
     private $categories;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Photo", mappedBy="user", cascade={"remove"})
+     */
+    private $photo;
+
 
     /**
      * Add budgetPosition
@@ -106,5 +111,29 @@ class User extends BaseUser
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param \AppBundle\Entity\Photo $photo
+     *
+     * @return User
+     */
+    public function setPhoto(\AppBundle\Entity\Photo $photo = null)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return \AppBundle\Entity\Photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
     }
 }
