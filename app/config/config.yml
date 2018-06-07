@@ -75,3 +75,7 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+
+cmen_google_charts:
+    version: "current"
+    language: "pl"
