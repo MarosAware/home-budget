@@ -107,15 +107,11 @@ class BudgetPositionController extends Controller
             $chartData[] = [$category->getName(), end($costCategoriesSums)];
         }
 
-        //var_dump($chartData);
-        
         $totalIncome = array_sum($incomeCategoriesSums);
         $totalCost = array_sum($costCategoriesSums);
 
 
-
         //Charts
-
 
         //Chart for costs.
         $pieChart = new Charts\PieChart();
