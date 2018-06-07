@@ -176,12 +176,8 @@ class BudgetPositionController extends Controller
 
         }
 
-
-
         $form = $this->createForm(BudgetPositionType::class, $position,
             ['year' => $year, 'month' => $month]);
-
-
 
         $form->handleRequest($request);
 

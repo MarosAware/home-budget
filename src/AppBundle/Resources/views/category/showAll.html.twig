@@ -30,48 +30,132 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {#<a id="addCategory" class="btn btn-info" href="{{ url('app_category_addcategory', {'year': year, 'month': month}) }}">Dodaj Kategorię</a>#}
                 <a id="addCategory" class="btn btn-primary">Dodaj Kategorię</a>
 
                 <div class="make_hidden">
 
-                    {{ render(controller('AppBundle:Category:addCategory',{ 'year': year, 'month': month })) }}
+
+                    <h3>Dodaj nową kategorię: </h3>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <input class="btn btn-primary" type="submit" value="Dodaj">
+                    {{ form_end(form) }}
+
 
                 </div>
-
-                {#I don't have id in this view to pre render modify controller, and also id will be various.#}
-                {#<div class="make_hidden">#}
-                    {#{{ render(controller('AppBundle:Category:modifyCategory',{ 'year': year, 'month': month, 'id': 0 })) }}#}
-                {#</div>#}
-
             </div>
         </div>
         <h3>Wszystkie kategorie: </h3>
         <table class="table">
             <thead>
-                <tr>
-                    <th>Nazwa kategorii</th>
-                    <th>Typ kategorii</th>
-                    <th>Opcje</th>
-                </tr>
+            <tr>
+                <th>Nazwa kategorii</th>
+                <th>Typ kategorii</th>
+                <th>Opcje</th>
+            </tr>
             </thead>
             <tbody class="category_list">
-                {% if categories %}
-                    {% for category in categories %}
-                        <tr>
-                            <td>
-                                <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': category.id }) }}">{{ category.name }}</a>
-                            </td>
-                            <td>{{ category.type }}</td>
-                            <td>
-                                <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
-                                <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
+            {% if categories %}
+                {% for category in categories %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': category.id }) }}">{{ category.name }}</a>
+                        </td>
+                        <td>{{ category.type }}</td>
+                        <td>
+                            <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
+                            <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
             </tbody>
         </table>
     </div>
+
+    <script>
+        $(function() {
+
+            var catTable = $('.category_list');
+
+            function makeOneItem(data) {
+                var catId = data.success.id;
+
+                var item = `
+                <tr>
+                      <td>
+                         <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': 0}) }}">${data.success.name}</a>
+                      </td>
+                      <td>${data.success.type}</td>
+                      <td>
+                         <a href="{{ path('app_category_modifycategory', {'month': month, 'year': year, 'id': 0}) }}" class="btn btn-primary edit">Edytuj</a>
+                         <a href="{{ path('app_category_deletecategory', {'month': month, 'year': year, 'id': 0}) }}" class="btn btn-danger delete">Usuń</a>
+                      </td>
+                </tr>
+            `;
+
+                catTable.prepend(item);
+
+                var linksToChange = catTable.children().eq(0).find('a');
+
+
+                for (var i = 0; i < linksToChange.length; i++) {
+                    var aHref = linksToChange.eq(i).attr('href');
+                    var fixedHref = aHref.slice(0, aHref.length -1) + catId;
+                    linksToChange.eq(i).attr('href', fixedHref);
+                }
+
+            }
+
+
+            var form = $('.make_hidden');
+
+            var addCat = $('#addCategory');
+
+            addCat.on('click', function() {
+
+                form.slideToggle();
+            });
+
+            form.on('submit', function(event) {
+                event.preventDefault();
+
+                var catName = $('#appbundle_category_name').val();
+                var selectVal = $('#appbundle_category_type').val();
+
+                var catType = $('#appbundle_category_type').find('option').eq(selectVal).text();
+
+                if (catType === 'przychód' || catType === 'wydatek') {
+
+
+                    var data = {
+                        "name": catName,
+                        "type": catType
+                    };
+
+                    var path = '{{ path('app_category_addcategory', {'year':year, 'month': month }) }}';
+
+                    $.ajax({
+                        url: path,
+                        data: data,
+                        type: "POST",
+                        dataType: "json"
+                    }).done(function (data) {
+                        console.log('called');
+                        makeOneItem(data);
+                        form.slideUp();
+                        $('#appbundle_category_name').val('');
+                        $('#appbundle_category_type').val(0);
+
+                    }).fail(function (xhr, status, err) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(err);
+                    });
+                }
+            });
+        });
+
+    </script>
 {% endblock %}
 
