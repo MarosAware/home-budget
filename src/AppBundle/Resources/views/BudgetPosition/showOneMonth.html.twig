@@ -37,6 +37,13 @@
                 <h1 class="text-center">Zestawienie miesiąca: {{ monthTxt | capitalize }}</h1>
             </div>
         </div>
+
+        <div class="row text-right">
+            <div class="col-md-11">
+                <i class="btn fa fa-pie-chart" style="font-size:48px;color:black" title="Pokaż wykresy"></i>
+            </div>
+
+        </div>
         <div class="col-sm-11">
             <h3>Przychody</h3>
             <table class="table main">
@@ -95,8 +102,45 @@
                     <p class="text-right text-success"><strong>Saldo: {{ (totalIncome - totalCost) |number_format(2)}} zł</strong></p>
                 {% endif %}
             </div>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="charts" id="#chart" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="div_chart"></div>
+            </div>
+            <div class="col-sm-6">
+                <div id="div_chart2"></div>
+            </div>
         </div>
     </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        {{ gc_draw([piechart, piechart2], ['div_chart', 'div_chart2']) }}
+
+        $(function() {
+            var btn = $('.fa-pie-chart');
+            var $elem = $('body');
+
+            var charts = $('.charts');
+            charts.slideUp();
+            console.log(charts);
+
+            btn.on('click', function() {
+                $('body,html').animate({ scrollTop: $elem.height()}, 800);
+                charts.slideDown();
+
+                return false;
+
+            })
+        });
+    </script>
 {% endblock %}
 
 

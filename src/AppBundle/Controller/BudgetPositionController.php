@@ -3,12 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\BudgetPosition;
-use AppBundle\Entity\Category;
 use AppBundle\Form\BudgetPositionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts;
+
 
 class BudgetPositionController extends Controller
 {
@@ -65,6 +66,7 @@ class BudgetPositionController extends Controller
             '11' => 'Listopad',
             '12' => 'Grudzień'];
 
+
         $incomeCategories = $this
             ->getDoctrine()
             ->getRepository("AppBundle:Category")
@@ -78,6 +80,10 @@ class BudgetPositionController extends Controller
         $incomeCategoriesSums = [];
         $costCategoriesSums = [];
 
+        $chartData[] = ['Kategoria', 'Kwota'];
+        $chartData2[] = ['Kategoria', 'Kwota'];
+
+
         foreach ($incomeCategories as $category) {
             $budgetPositions = $this
                 ->getDoctrine()
@@ -85,6 +91,7 @@ class BudgetPositionController extends Controller
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
             $incomeCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
+            $chartData2[] = [$category->getName(), end($incomeCategoriesSums)];
         }
 
         foreach ($costCategories as $category) {
@@ -93,11 +100,50 @@ class BudgetPositionController extends Controller
                 ->getRepository("AppBundle:BudgetPosition")
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
+
+
             $costCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
+            $chartData[] = [$category->getName(), end($costCategoriesSums)];
         }
+        array_push($chartData, ['Jakiestam', 100]);
+
+        //var_dump($chartData);
         
         $totalIncome = array_sum($incomeCategoriesSums);
         $totalCost = array_sum($costCategoriesSums);
+
+
+
+        //Charts
+
+
+        //Chart for costs.
+        $pieChart = new Charts\PieChart();
+        $pieChart->getData()->setArrayToDataTable($chartData);
+        $pieChart->getOptions()->setTitle('Wydatki:');
+        $pieChart->getOptions()->setHeight(500);
+        $pieChart->getOptions()->setWidth(700);
+        $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#000');
+        $pieChart->getOptions()->getTitleTextStyle()->setItalic(false);
+        $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $pieChart->getOptions()->getTitleTextStyle()->setFontSize(30);
+
+
+        //Chart for incomes.
+        $pieChart2 = new Charts\PieChart();
+        $pieChart2->getData()->setArrayToDataTable($chartData2);
+        $pieChart2->getOptions()->setTitle('Przychody:');
+        $pieChart2->getOptions()->setHeight(500);
+        $pieChart2->getOptions()->setWidth(700);
+        $pieChart2->getOptions()->getTitleTextStyle()->setBold(true);
+        $pieChart2->getOptions()->getTitleTextStyle()->setColor('#000');
+        $pieChart2->getOptions()->getTitleTextStyle()->setItalic(false);
+        $pieChart2->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $pieChart2->getOptions()->getTitleTextStyle()->setFontSize(30);
+
+
+        //End Charts
 
         return $this->render('@App/BudgetPosition/showOneMonth.html.twig', [
             'year' => $year,
@@ -108,7 +154,9 @@ class BudgetPositionController extends Controller
             'costCategories' => $costCategories,
             'costCategoriesSums' => $costCategoriesSums,
             'totalIncome' => $totalIncome,
-            'totalCost' =>$totalCost]);
+            'totalCost' =>$totalCost,
+            'piechart' => $pieChart,
+            'piechart2' => $pieChart2]);
     }
 
     /**
