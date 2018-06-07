@@ -49,6 +49,8 @@ class BudgetPositionController extends Controller
      */
     public function oneMonthAction($year, $month)
     {
+        $user = $this->getUser();
+
         $months = [
             '01' =>'Styczeń',
             '02' => 'Luty',
@@ -66,12 +68,12 @@ class BudgetPositionController extends Controller
         $incomeCategories = $this
             ->getDoctrine()
             ->getRepository("AppBundle:Category")
-            ->findBy(array('type' => 'przychód'), array('name'=>'ASC'));
+            ->findBy(array('type' => 'przychód', 'user' => $user), array('name'=>'ASC'));
 
         $costCategories = $this
             ->getDoctrine()
             ->getRepository("AppBundle:Category")
-            ->findBy(array('type' => 'wydatek'), array('name'=>'ASC'));
+            ->findBy(array('type' => 'wydatek', 'user' => $user), array('name'=>'ASC'));
 
         $incomeCategoriesSums = [];
         $costCategoriesSums = [];

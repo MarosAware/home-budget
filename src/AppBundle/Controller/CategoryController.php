@@ -81,12 +81,10 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->setUser($user);
+
         $form = $this->createForm(CategoryType::class, $category);
 
-
         if($request->isXmlHttpRequest()) {
-
-
 
             $em = $this->getDoctrine()->getManager();
 
@@ -191,10 +189,11 @@ class CategoryController extends Controller
      */
     public function showCategoriesAction($year, $month)
     {
+        $user = $this->getUser();
         $categories = $this
             ->getDoctrine()
             ->getRepository('AppBundle:Category')
-            ->findBy(array(), array('name'=>'ASC'));
+            ->findBy(array('user' => $user), array('name'=>'ASC'));
 
         return $this->render('@App/category/showAll.html.twig', [
             'categories' => $categories,
