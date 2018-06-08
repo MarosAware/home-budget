@@ -81,9 +81,36 @@ class PhotoController extends Controller
         $editForm = $this->createForm('AppBundle\Form\PhotoType', $photo);
         $editForm->handleRequest($request);
 
+        $user = $this->getUser();
+
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $user->setPhoto($photo);
+            $em = $this->getDoctrine()->getManager();
+
+            // $file stores the uploaded PDF file
+
+            /** @var UploadedFile */
+            $file = $photo->getName();
+
+
+            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+
+            // moves the file to the directory where brochures are stored
+            $file->move(
+                $this->getParameter('photos_directory'),
+                $fileName
+            );
+
+            // updates the 'brochure' property to store the PDF file name
+            // instead of its contents
+            $photo->setName($fileName);
+
+
+            $em->persist($photo);
+            $em->flush();
+
 
             return $this->redirectToRoute('fos_user_profile_show');
         }
