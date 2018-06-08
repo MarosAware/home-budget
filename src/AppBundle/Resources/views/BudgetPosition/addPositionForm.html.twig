@@ -94,10 +94,12 @@
                     newPosition(data);
                     form.slideUp();
 
-                    $('#appbundle_budgetposition_title').val('');
-                    $('#appbundle_budgetposition_description').val('');
-                    $('#appbundle_budgetposition_price').val('0.00');
-                    $('#appbundle_budgetposition_date_day').val('1');
+                    setTimeout( function (){
+                        $('#appbundle_budgetposition_title').val('');
+                        $('#appbundle_budgetposition_description').val('');
+                        $('#appbundle_budgetposition_price').val('0.00');
+                        $('#appbundle_budgetposition_date_day').val('1');
+                    }, 2000)
 
                 }).fail(function (xhr, status, err) {
                     console.log(xhr);

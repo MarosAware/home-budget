@@ -15,7 +15,7 @@ class BudgetPositionRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
 
         $budgetPossitions = $em->createQuery(
-            'SELECT b FROM AppBundle:BudgetPosition b WHERE b.category=:category AND b.date LIKE :prefix')
+            'SELECT b FROM AppBundle:BudgetPosition b WHERE b.category=:category AND b.date LIKE :prefix ORDER BY b.id DESC')
             ->setParameter('category', $category)
             ->setParameter('prefix', $year.'-'.$month.'%')->getResult();
 
