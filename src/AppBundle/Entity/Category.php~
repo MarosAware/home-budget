@@ -42,6 +42,13 @@ class Category implements \JsonSerializable
     private $type;
 
     /**
+     * @var integer
+     * @ORM\Column(name="amount", type="integer")
+     * @Assert\Type(type="numeric")
+     */
+    private $amount;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\BudgetPosition", mappedBy="category", cascade={"remove"})
      */
     private $budgetPositions;
@@ -55,6 +62,7 @@ class Category implements \JsonSerializable
     public function __construct()
     {
         $this->budgetPositions = new ArrayCollection();
+        $this->amount = 0;
     }
 
     /**
@@ -204,5 +212,29 @@ class Category implements \JsonSerializable
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param integer $amount
+     *
+     * @return Category
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 }
