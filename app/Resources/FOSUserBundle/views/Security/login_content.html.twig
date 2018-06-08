@@ -4,25 +4,31 @@
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<div class=" col-md-8">
-    <div class="contener text-right">
-        <h3>Zaloguj się </h3><br>
-        <form action="{{ path("fos_user_security_check") }}" method="post">
-            {% if csrf_token %}
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            {% endif %}
+<div class="col-md-1"></div>
+<div class=" col-md-6">
+
+    <h3>Zaloguj się </h3><br>
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {% endif %}
+        <div class="form-group">
             <label for="username">{{ 'security.login.username'|trans }}</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" /><br>
+            <input  class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" /><br>
+        </div>
 
+        <div class="form-group">
             <label for="password">{{ 'security.login.password'|trans }}</label>
-            <input type="password" id="password" name="_password" required="required" autocomplete="current-password" /><br>
+            <input  class="form-control" type="password" id="password" name="_password" required="required" autocomplete="current-password" /><br>
+        </div>
 
-            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label><br>
+        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
 
-            <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-        </form>
-        <a href="{{ path('fos_user_registration_register') }}">Nie masz jeszcze konta? Zarejestruj się!</a>
-    </div>
+        <p><input class="btn btn-default form-control" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" /></p>
+    </form>
+    <a href="{{ path('fos_user_registration_register') }}">Nie masz jeszcze konta? Zarejestruj się!</a>
+
 </div>
+<div class="col-md-1"></div>
 
