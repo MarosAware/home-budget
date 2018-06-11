@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="budget_position")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BudgetPositionRepository")
  */
-class BudgetPosition
+class BudgetPosition implements \JsonSerializable
 {
     /**
      * @var int
@@ -231,5 +231,25 @@ class BudgetPosition
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'price' => $this->price,
+            'date' => $this->date,
+            'category' => $this->category,
+            'user' => $this->user,
+        ];
     }
 }
