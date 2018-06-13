@@ -37,6 +37,7 @@
                     <h3>Dodaj nową kategorię: </h3>
                     {{ form_start(form) }}
                     {{ form_widget(form) }}
+                    {#{{ form_widget(form.amount, {'attr': {'class': 'jajaja'}}) }}#}
                     <input class="btn btn-primary" type="submit" value="Dodaj">
                     {{ form_end(form) }}
 
@@ -50,6 +51,7 @@
             <tr>
                 <th>Nazwa kategorii</th>
                 <th>Typ kategorii</th>
+                <th>Limit</th>
                 <th>Opcje</th>
             </tr>
             </thead>
@@ -61,6 +63,7 @@
                             <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': category.id }) }}">{{ category.name }}</a>
                         </td>
                         <td>{{ category.type }}</td>
+                        <td>{{ category.amount | number_format(2) }}</td>
                         <td>
                             <a href="{{ path('app_category_modifycategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-primary">Edytuj</a>
                             <a href="{{ path('app_category_deletecategory', {'year': year, 'month': month, 'id': category.id}) }}" class="btn btn-danger">Usuń</a>
@@ -79,6 +82,7 @@
 
             function makeOneItem(data) {
                 var catId = data.success.id;
+                var amount = parseFloat(data.success.amount).toFixed(2);
 
                 var item = `
                 <tr>
@@ -86,6 +90,7 @@
                          <a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': 0}) }}">${data.success.name}</a>
                       </td>
                       <td>${data.success.type}</td>
+                      <td>${amount}</td>
                       <td>
                          <a href="{{ path('app_category_modifycategory', {'month': month, 'year': year, 'id': 0}) }}" class="btn btn-primary edit">Edytuj</a>
                          <a href="{{ path('app_category_deletecategory', {'month': month, 'year': year, 'id': 0}) }}" class="btn btn-danger delete">Usuń</a>
@@ -96,6 +101,13 @@
                 catTable.prepend(item);
 
                 var linksToChange = catTable.children().eq(0).find('a');
+
+
+                // var amountText = catTable.children().eq(0).find('td').eq(2).text();
+                //
+                //
+                // catTable.children().eq(0).find('td').eq(2).text(amount.toFixed(2));
+
 
 
                 for (var i = 0; i < linksToChange.length; i++) {
@@ -109,6 +121,8 @@
 
             var form = $('.make_hidden');
 
+            var limitInput = $('.form-group').last().addClass('make_hidden');
+
             var addCat = $('#addCategory');
 
             addCat.on('click', function() {
@@ -116,11 +130,27 @@
                 form.slideToggle();
             });
 
+            var typeInput = $('#appbundle_category_type');
+
+            typeInput.on('change', function() {
+
+                var inputText = $('#appbundle_category_type option:selected').text();
+                var inputVal = $(this).val();
+
+               if (inputText === 'wydatek' &&  inputVal === '2') {
+                   limitInput.slideDown();
+               } else {
+                   limitInput.slideUp();
+               }
+
+            });
+
             form.on('submit', function(event) {
                 event.preventDefault();
 
                 var catName = $('#appbundle_category_name').val();
                 var selectVal = $('#appbundle_category_type').val();
+                var amount = $('#appbundle_category_amount').val();
 
                 var catType = $('#appbundle_category_type').find('option').eq(selectVal).text();
 
@@ -129,7 +159,8 @@
 
                     var data = {
                         "name": catName,
-                        "type": catType
+                        "type": catType,
+                        "amount": amount,
                     };
 
                     var path = '{{ path('app_category_addcategory', {'year':year, 'month': month }) }}';
@@ -140,16 +171,18 @@
                         type: "POST",
                         dataType: "json"
                     }).done(function (data) {
-                        console.log('called');
+                        console.log(data);
                         makeOneItem(data);
                         form.slideUp();
+                        limitInput.slideUp();
                         $('#appbundle_category_name').val('');
                         $('#appbundle_category_type').val(0);
+                        $('#appbundle_category_amount').val('0.00');
 
                     }).fail(function (xhr, status, err) {
-                        console.log(xhr);
-                        console.log(status);
-                        console.log(err);
+                        // console.log(xhr);
+                        // console.log(status);
+                        // console.log(err);
                     });
                 }
             });

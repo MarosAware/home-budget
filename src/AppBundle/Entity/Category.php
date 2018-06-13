@@ -186,7 +186,8 @@ class Category implements \JsonSerializable
         return [
           'id' => $this->id,
           'name' => $this->name,
-          'type' => $this->type
+          'type' => $this->type,
+            'amount' => $this->amount
         ];
     }
 

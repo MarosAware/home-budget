@@ -95,6 +95,7 @@ class BudgetPositionController extends Controller
             $chartData2[] = [$category->getName(), end($incomeCategoriesSums)];
         }
 
+        $sumAmount = 0;
         foreach ($costCategories as $category) {
             $budgetPositions = $this
                 ->getDoctrine()
@@ -102,7 +103,7 @@ class BudgetPositionController extends Controller
                 ->findByMonthAndCategory($month, $year, $category->getId());
 
 
-
+            $sumAmount += $category->getAmount();
             $costCategoriesSums [] = BudgetPosition::sumPositions($budgetPositions);
             $chartData[] = [$category->getName(), end($costCategoriesSums)];
         }
@@ -150,7 +151,8 @@ class BudgetPositionController extends Controller
             'costCategories' => $costCategories,
             'costCategoriesSums' => $costCategoriesSums,
             'totalIncome' => $totalIncome,
-            'totalCost' =>$totalCost,
+            'totalCost' => $totalCost,
+            'sumAmount' => $sumAmount,
             'piechart' => $pieChart,
             'piechart2' => $pieChart2]);
     }

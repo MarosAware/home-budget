@@ -18,14 +18,14 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'Nazwa kategorii'])
-            ->add('amount', NumberType::class, ['label' => 'Kwota limitu', 'scale' => 2, 'required' => true])
             ->add('type', ChoiceType::class, array(
             'choices' => array(
                 '--Wybierz typ--' => null,
                 'przychód' => 'przychód',
                 'wydatek' => 'wydatek'
             ),
-            'label' => 'Typ kategorii'));
+            'label' => 'Typ kategorii'))
+            ->add('amount', NumberType::class, ['label' => 'Kwota limitu', 'scale' => 2, 'required' => true]);
     }
 
     /**

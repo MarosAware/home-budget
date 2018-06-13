@@ -73,7 +73,7 @@
                 <thead>
                 <tr>
                     <td>Kategoria</td>
-                    <td class="text-right">Kwota</td>
+                    <td class="text-right">Kwota <strong>(Limit)</strong></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,13 +81,21 @@
                         {% for i in 0..costCategories|length -1 %}
                             <tr>
                                 <td><a href="{{ path('app_category_categorydetails', {'month': month, 'year': year, 'categoryId': costCategories[i].id }) }}">{{ costCategories[i].name }}</td>
-                                <td class="text-right">{{ costCategoriesSums[i] |number_format(2) }} zł</td>
+
+
+                                    {% if costCategoriesSums[i] > costCategories[i].amount and costCategories[i].amount > 0 %}
+                                            {% set class="text-danger" %}
+                                        {% else %}
+                                            {% set class="text-success" %}
+                                    {% endif %}
+
+                                <td class="text-right"><span class="{{ class }}">{{ costCategoriesSums[i] |number_format(2) }} zł</span><strong> ({{ costCategories[i].amount |number_format(2) }} zł)</strong></td>
                             </tr>
                         {% endfor %}
                     {% endif %}
                     <tr>
                         <td><strong>Suma:</strong></td>
-                        <td class="text-right"><strong>{{ totalCost |number_format(2) }} zł </strong></td>
+                        <td class="text-right"><strong>{{ totalCost |number_format(2) }} zł ({{ sumAmount |number_format(2) }} zł)</strong></td>
                     </tr>
                 </tbody>
             </table>

@@ -61,9 +61,11 @@ class CategoryController extends Controller
 
             $name = $request->request->get('name');
             $type = $request->request->get('type');
+            $amount = $request->request->get('amount');
 
             $category->setName($name);
             $category->setType($type);
+            $category->setAmount($amount);
 
             $em->persist($category);
             $em->flush();
