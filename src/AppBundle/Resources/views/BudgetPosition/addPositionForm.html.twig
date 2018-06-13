@@ -42,6 +42,20 @@
                 $('.onePosition').eq(0).text(date);
                 $('.onePosition').eq(2).text(priceFormatted + ' zł');
 
+                var amount = parseFloat($('.onePosition').eq(2).text());
+
+                var sum = positionsTable.find('#sum').text();
+
+                sum = sum.replace(',', '');
+                sum = sum.replace(' zł', '');
+                sum = parseFloat(sum);
+
+                var totalSum = sum + amount;
+
+                console.log(totalSum);
+
+                positionsTable.find('#sum').text(totalSum.toFixed(2) + ' zł');
+
                 var links = positionsTable.children().eq(0).find('a');
 
                 for( var i = 0; i < links.length; i++){
@@ -57,6 +71,8 @@
                     var details = $(this).parent().next();
                     details.slideToggle();
                 })
+
+
             }
 
             addPosition.on('click', function() {
